@@ -4,7 +4,7 @@ var path = require('path'),
 
 var INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
 	VALID_TIAPP_ARGS = [undefined, './tiapp.xml'],
-	TIAPP_XML = path.join('fixtures', 'tiapp.xml');
+	TIAPP_XML = path.join('test', 'fixtures', 'tiapp.xml');
 
 // custom assertion for Tiapp
 should.Assertion.add('Tiapp', function() {
@@ -12,16 +12,17 @@ should.Assertion.add('Tiapp', function() {
 	this.assert(this.obj && isFunction(this.obj.parse));
 }, true);
 
+// test suite
 describe('tiapp.xml.js', function() {
 
 	it('should create Tiapp with no tiapp.xml', function() {
 		var tiapp = new Tiapp();
-		should.exist(tiapp.parse);
-		tiapp.parse.should.be.a.function;
+		tiapp.should.be.a.Tiapp;
 	});
 
 	it('should create Tiapp with explicit tiapp.xml', function() {
-		var tiapp = new Tiapp();
+		var tiapp = new Tiapp(TIAPP_XML);
+
 	});
 
 	INVALID_TIAPP_ARGS.forEach(function(arg) {
@@ -33,6 +34,11 @@ describe('tiapp.xml.js', function() {
 	});
 
 });
+
+// utils
+function isFunction(o) {
+	return Object.prototype.toString.call(o) === '[object Function]';
+}
 
 function toString(o) {
 	if (o !== o) {
