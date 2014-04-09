@@ -17,6 +17,12 @@ function Tiapp(file) {
 	var self = this,
 		_file;
 
+	// make sure file is either undefined or a string
+	if (typeof file !== 'undefined' && !isString(file)) {
+		throw new Error('Bad argument. If defined, file must be a string.');
+	}
+
+	// create getter/setter for file
 	Object.defineProperty(this, 'file', {
 		get: function() {
 			return _file;
@@ -48,7 +54,7 @@ Tiapp.prototype.parse = function parse(file) {
 
 	// make sure we found a tiapp.xml, otherwise throw
 	if (!this.file) {
-		throw new Error('No tiapp.xml file found');
+		throw new Error('No tiapp.xml file found.');
 	}
 
 	// parse the file as xml
@@ -72,3 +78,7 @@ Tiapp.prototype.find = function find() {
 		console.log(p);
 	}
 };
+
+function isString(o) {
+	return Object.prototype.toString.call(o) === '[object String]';
+}
