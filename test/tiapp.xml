@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.tonylukasavage.ti2048</id>
-	<name>ti-2048</name>
+	<name>tiappxml</name>
 	<version>1.0</version>
 	<publisher>not specified</publisher>
 	<url/>
@@ -10,7 +10,7 @@
 	<fullscreen>false</fullscreen>
 	<navbar-hidden>false</navbar-hidden>
 	<analytics>true</analytics>
-	<guid>d3064db6-6d84-43c1-a65d-aa720549db99</guid>
+	<guid>d3064db6-6d84-43c1-a65d-aa720541db99</guid>
 	<property name="ti.ui.defaultunit" type="string">dp</property>
 	<ios>
 		<plist>
