@@ -1,0 +1,42 @@
+{
+  "name": "tiapp.xml",
+  "version": "0.0.1",
+  "description": "Titanium tiapp.xml parsing and manipulation API",
+  "keywords": [
+    "titanium",
+    "appcelerator",
+    "alloy"
+  ],
+  "homepage": "git://github.com/tonylukasavage/tiapp.xml.git",
+  "bugs": {
+    "url": "https://github.com/tonylukasavage/tiapp.xml/issues",
+    "email": "anthony.lukasavage@gmail.com"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tony Lukasavage",
+    "email": "anthony.lukasavage@gmail.com",
+    "url": "http://tonylukasavage.com"
+  },
+  "main": "./lib/tiapp.xml.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tonylukasavage/tiapp.xml.git"
+  },
+  "dependencies": {
+    "xmldom": "~0.1.19"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-mocha-test": "~0.10.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "should": "~3.3.0"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}
