@@ -18,7 +18,7 @@
     "email": "anthony.lukasavage@gmail.com",
     "url": "http://tonylukasavage.com"
   },
-  "main": "./lib/tiapp.xml.js",
+  "main": "./tiapp.xml.js",
   "scripts": {
     "test": "grunt"
   },
@@ -34,7 +34,9 @@
     "grunt-mocha-test": "~0.10.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-clean": "~0.5.0",
-    "should": "~3.3.0"
+    "should": "~3.3.0",
+    "grunt-jsdoc": "~0.5.4",
+    "ink-docstrap": "~0.3.0-0"
   },
   "engines": {
     "node": ">=0.10"

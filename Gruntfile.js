@@ -1,9 +1,3 @@
-// var build = require('./lib/build'),
-// 	C = require('./lib/constants'),
-// 	fs = require('fs'),
-// 	install = require('./lib/install'),
-// 	path = require('path');
-
 module.exports = function(grunt) {
 
 	// Project configuration.
@@ -50,7 +44,17 @@ module.exports = function(grunt) {
 				},
 				src: ['test/*_test.js']
 			},
-			src: ['lib/*.js']
+			src: ['tiapp.xml.js']
+		},
+		jsdoc: {
+			dist: {
+				src: ['tiapp.xml.js'],
+				options: {
+					destination: 'doc',
+					configure: 'node_modules/ink-docstrap/template/jsdoc.conf.json',
+					template: 'node_modules/ink-docstrap/template'
+				}
+			}
 		},
 		clean: {
 			src: ['tmp']
@@ -61,8 +65,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// Register tasks
-	grunt.registerTask('default', ['jshint', 'mochaTest', 'clean']);
+	grunt.registerTask('default', ['jshint', 'mochaTest', 'clean', 'jsdoc']);
 
 };
