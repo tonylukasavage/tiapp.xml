@@ -51,8 +51,8 @@ module.exports = function(grunt) {
 				src: ['tiapp.xml.js'],
 				options: {
 					destination: 'doc',
-					configure: 'node_modules/ink-docstrap/template/jsdoc.conf.json',
-					template: 'node_modules/ink-docstrap/template'
+					configure: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json',
+					template: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template'
 				}
 			}
 		}
