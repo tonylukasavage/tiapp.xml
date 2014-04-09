@@ -6,6 +6,12 @@ var INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity
 	VALID_TIAPP_ARGS = [undefined, './tiapp.xml'],
 	TIAPP_XML = path.join('fixtures', 'tiapp.xml');
 
+// custom assertion for Tiapp
+should.Assertion.add('Tiapp', function() {
+	this.params = { operator: 'to be a Tiapp object' };
+	this.assert(this.obj && isFunction(this.obj.parse));
+}, true);
+
 describe('tiapp.xml.js', function() {
 
 	it('should create Tiapp with no tiapp.xml', function() {

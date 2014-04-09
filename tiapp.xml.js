@@ -61,7 +61,7 @@ Tiapp.prototype.parse = function parse(file) {
 	}
 
 	// parse the file as xml
-	this.doc = new xmldom.DOMParser().parseFromString(fs.readFileSync(file, 'utf8'));
+	this.doc = new xmldom.DOMParser().parseFromString(fs.readFileSync(this.file, 'utf8'));
 };
 
 /**
