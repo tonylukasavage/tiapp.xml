@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 				indent: 4,
 				latedef: 'nofunc',
 				newcap: true,
-				noarg: true,
+				noarg: false,
 				nonew: true,
 				undef: true,
 				unused: true,
@@ -44,11 +44,11 @@ module.exports = function(grunt) {
 				},
 				src: ['test/*_test.js']
 			},
-			src: ['tiapp.xml.js']
+			src: ['lib/tiapp.xml.js']
 		},
 		jsdoc: {
 			dist: {
-				src: ['tiapp.xml.js'],
+				src: ['lib/*.js'],
 				options: {
 					destination: 'doc',
 					configure: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json',

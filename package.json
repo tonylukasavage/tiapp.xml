@@ -18,7 +18,7 @@
     "email": "anthony.lukasavage@gmail.com",
     "url": "http://tonylukasavage.com"
   },
-  "main": "./tiapp.xml.js",
+  "main": "./lib/tiapp.xml.js",
   "scripts": {
     "test": "grunt test"
   },
