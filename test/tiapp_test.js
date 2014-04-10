@@ -4,7 +4,8 @@ var path = require('path'),
 
 var INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
 	VALID_TIAPP_ARGS = [undefined, './tiapp.xml'],
-	TIAPP_XML = path.join('test', 'fixtures', 'tiapp.xml');
+	TIAPP_XML = path.join('test', 'fixtures', 'tiapp.xml'),
+	TESFIND_TIAPP_XML = path.join('test', 'fixtures', 'testfind', 'tiapp.xml');
 
 // custom assertion for Tiapp
 should.Assertion.add('Tiapp', function() {
@@ -13,27 +14,39 @@ should.Assertion.add('Tiapp', function() {
 }, true);
 
 // test suite
-describe('tiapp.xml.js', function() {
+describe('Tiapp', function() {
 
-	it('should create Tiapp with no tiapp.xml', function() {
-		var tiapp = new Tiapp();
-		tiapp.should.be.a.Tiapp;
-	});
+	describe('#Tiapp', function() {
 
-	it('should create Tiapp with explicit tiapp.xml', function() {
-		var tiapp = new Tiapp(TIAPP_XML);
-		tiapp.should.be.a.Tiapp;
-		tiapp.file.should.equal(TIAPP_XML);
-		tiapp.file = 'this should not change anything';
-		tiapp.file.should.equal(TIAPP_XML);
-	});
-
-	INVALID_TIAPP_ARGS.forEach(function(arg) {
-		it('should throw when calling Tiapp(' + toString(arg) + ')', function() {
-			(function() {
-				var tiapp = new Tiapp(arg);
-			}).should.throw(/Bad argument/);
+		it('should execute with no arguments', function() {
+			var tiapp = new Tiapp();
+			tiapp.should.be.a.Tiapp;
+			should.not.exist(tiapp.doc);
 		});
+
+		it('should execute with file', function() {
+			var tiapp = new Tiapp(TIAPP_XML);
+			tiapp.should.be.a.Tiapp;
+			tiapp.file.should.equal(TIAPP_XML);
+			should.exist(tiapp.doc);
+		});
+
+		it('should create "file" property as non-writable', function() {
+			var tiapp = new Tiapp(TIAPP_XML);
+			tiapp.should.be.a.Tiapp;
+			tiapp.file.should.equal(TIAPP_XML);
+			tiapp.file = 'this should not change anything';
+			tiapp.file.should.equal(TIAPP_XML);
+		});
+
+		INVALID_TIAPP_ARGS.forEach(function(arg) {
+			it('should throw when executed with "' + toString(arg) + '"', function() {
+				(function() {
+					var tiapp = new Tiapp(arg);
+				}).should.throw(/Bad argument/);
+			});
+		});
+
 	});
 
 });
