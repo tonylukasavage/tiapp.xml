@@ -56,6 +56,9 @@ function Tiapp(file) {
 Tiapp.prototype.load = function parse(file) {
 
 	// make sure we have a file
+	if (typeof file !== 'undefined' && !isString(file)) {
+		throw new Error('Bad argument. If defined, file must be a string.');
+	}
 	file = file || this.find();
 	if (!file || (file && !fs.existsSync(file))) {
 		throw new Error('tiapp.xml not found');

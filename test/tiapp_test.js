@@ -115,6 +115,15 @@ describe('Tiapp', function() {
 			should.exist(tiapp.doc);
 		});
 
+		INVALID_TIAPP_ARGS.forEach(function(arg) {
+			it('should throw when executed with "' + toString(arg) + '"', function() {
+				(function() {
+					var tiapp = new Tiapp();
+					tiapp.load(arg);
+				}).should.throw(/Bad argument/);
+			});
+		});
+
 	});
 
 	describe('#parse', function() {
