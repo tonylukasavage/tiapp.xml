@@ -23,6 +23,8 @@ module.exports = Tiapp;
  *                        use the Tiapp API and won't access this directly. If you need it, though, it is
  *                        available. Its usage can be found at https://github.com/jindw/xmldom.
  * @property {String} file Path to the tiapp.xml file. Setting `file` will call {@link Tiapp#parse|parse()}.
+ *
+ * @returns {Tiapp} An instance of Tiapp
  */
 function Tiapp(file) {
 
@@ -52,6 +54,8 @@ function Tiapp(file) {
  * validated, read, and then {@link Tiapp#parse|parse()} is called.
  *
  * @param {String} [file] Path to the tiapp.xml file
+ *
+ * @returns {Tiapp} the current Tiapp object (i.e., `this`)
  */
 Tiapp.prototype.load = function parse(file) {
 
@@ -73,13 +77,15 @@ Tiapp.prototype.load = function parse(file) {
 	});
 
 	// parse the file
-	this.parse(fs.readFileSync(file, 'utf8'));
+	return this.parse(fs.readFileSync(file, 'utf8'));
 };
 
 /**
  * Parses the given string as xml and updates the current Tiapp object.
  *
  * @param {String} [xml] XML string to be parsed, presumedly a tiapp.xml
+ *
+ * @returns {Tiapp} the current Tiapp object (i.e., `this`)
  */
 Tiapp.prototype.parse = function parse(xml) {
 
@@ -90,6 +96,7 @@ Tiapp.prototype.parse = function parse(xml) {
 
 	// parse the xml
 	this.doc = new xmldom.DOMParser().parseFromString(xml);
+	return this;
 };
 
 /**
