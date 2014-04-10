@@ -2,10 +2,11 @@ var path = require('path'),
 	should = require('should'),
 	Tiapp = require('..');
 
-var INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
-	VALID_TIAPP_ARGS = [undefined, './tiapp.xml'],
-	TIAPP_XML = path.join('test', 'fixtures', 'tiapp.xml'),
-	TESFIND_TIAPP_XML = path.join('test', 'fixtures', 'testfind', 'tiapp.xml');
+var ROOT = process.cwd(),
+	INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
+	TIAPP_XML = path.resolve('test', 'fixtures', 'tiapp.xml'),
+	TESTFIND_END = path.resolve('test', 'fixtures', 'testfind', '1', '2', '3'),
+	TESFIND_TIAPP_XML = path.resolve('test', 'fixtures', 'testfind', 'tiapp.xml');
 
 // custom assertion for Tiapp
 should.Assertion.add('Tiapp', function() {
@@ -18,13 +19,22 @@ describe('Tiapp', function() {
 
 	describe('#Tiapp', function() {
 
-		it('should execute with no arguments', function() {
+		it('should execute with no arguments and no tiapp.xml found', function() {
 			var tiapp = new Tiapp();
 			tiapp.should.be.a.Tiapp;
 			should.not.exist(tiapp.doc);
 		});
 
+		it('should execute with no arguments but still find tiapp.xml', function() {
+			process.chdir(TESTFIND_END);
+			var tiapp = new Tiapp();
+			tiapp.should.be.a.Tiapp;
+			tiapp.file.should.equal(TESFIND_TIAPP_XML);
+			should.exist(tiapp.doc);
+		});
+
 		it('should execute with file', function() {
+			process.chdir(ROOT);
 			var tiapp = new Tiapp(TIAPP_XML);
 			tiapp.should.be.a.Tiapp;
 			tiapp.file.should.equal(TIAPP_XML);
@@ -46,6 +56,38 @@ describe('Tiapp', function() {
 				}).should.throw(/Bad argument/);
 			});
 		});
+
+	});
+
+	describe('#find', function() {
+
+		it('should return null when no tiapp.xml is found', function() {
+			should.equal(Tiapp.prototype.find(), null);
+		});
+
+		it('should find tiapp.xml in current directory', function() {
+			process.chdir(path.dirname(TESFIND_TIAPP_XML));
+			Tiapp.prototype.find().should.equal(TESFIND_TIAPP_XML);
+
+			process.chdir(path.dirname(TIAPP_XML));
+			Tiapp.prototype.find().should.equal(TIAPP_XML);
+		});
+
+		it('should find tiapp.xml in directory hierarchy', function() {
+			process.chdir(path.dirname(TESTFIND_END));
+			Tiapp.prototype.find().should.equal(TESFIND_TIAPP_XML);
+
+			process.chdir(path.join(path.dirname(TESTFIND_END), '..'));
+			Tiapp.prototype.find().should.equal(TESFIND_TIAPP_XML);
+		});
+
+	});
+
+	describe('#load', function() {
+
+	});
+
+	describe('#parse', function() {
 
 	});
 

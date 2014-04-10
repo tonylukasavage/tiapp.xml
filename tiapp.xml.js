@@ -101,10 +101,21 @@ Tiapp.prototype.find = function find() {
 	var cwd = process.cwd(),
 		parts = cwd.split(path.sep);
 
-	for (var i = 1, len = parts.len; i <= len; i++) {
-		var p = path.join.apply(null, parts.slice(0, len-i).concat('tiapp.xml'));
-		console.log(p);
+	// remove empty element
+	if (parts[0] === '') {
+		parts.shift();
 	}
+
+	// iterate up through hierarchy to try and find a tiapp.xml
+	for (var i = 0, len = parts.length; i < len; i++) {
+		var p = (/^win/.test(process.platform) ? '' : path.sep) +
+			path.join.apply(path, parts.slice(0, len-i).concat('tiapp.xml'));
+		if (fs.existsSync(p) && fs.statSync(p).isFile()) {
+			return p;
+		}
+	}
+
+	return null;
 };
 
 function isString(o) {
