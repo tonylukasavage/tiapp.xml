@@ -30,7 +30,7 @@ function Tiapp(file) {
 
 	// get and validate file
 	if (typeof file !== 'undefined' && !isString(file)) {
-		throw new Error('Bad argument. If defined, file must be a string.');
+		throw new TiappError('Bad argument. If defined, file must be a string.', file);
 	}
 	file = file || this.find();
 
@@ -61,11 +61,11 @@ Tiapp.prototype.load = function parse(file) {
 
 	// make sure we have a file
 	if (typeof file !== 'undefined' && !isString(file)) {
-		throw new Error('Bad argument. If defined, file must be a string.');
+		throw new TiappError('Bad argument. If defined, file must be a string.', file);
 	}
 	file = file || this.find();
 	if (!file || (file && !fs.existsSync(file))) {
-		throw new Error('tiapp.xml not found');
+		throw new TiappError('tiapp.xml not found', file);
 	}
 
 	// redefine file
@@ -91,7 +91,7 @@ Tiapp.prototype.parse = function parse(xml) {
 
 	// make sure xml is a string
 	if (!xml || !isString(xml)) {
-		throw new Error('Bad argument. xml must be a string.');
+		throw new TiappError('Bad argument. xml must be a string.', xml);
 	}
 
 	// parse the xml
@@ -131,3 +131,12 @@ Tiapp.prototype.find = function find() {
 function isString(o) {
 	return Object.prototype.toString.call(o) === '[object String]';
 }
+function TiappError(msg, data) {
+	Error.call(this);
+	Error.captureStackTrace(this, arguments.callee);
+	this.message = msg;
+	this.name = 'TiappError';
+	this.data = data;
+}
+TiappError.prototype = Object.create(Error.prototype);
+TiappError.prototype.constructor = TiappError;
