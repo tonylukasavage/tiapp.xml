@@ -100,6 +100,21 @@ describe('Tiapp', function() {
 			}).should.throw();
 		});
 
+		it('should load given a file', function() {
+			var tiapp = new Tiapp();
+			tiapp.load(TIAPP_XML);
+			tiapp.file.should.equal(TIAPP_XML);
+			should.exist(tiapp.doc);
+		});
+
+		it('should load without a file via find()', function() {
+			process.chdir(TESTFIND_END);
+			var tiapp = new Tiapp();
+			tiapp.load();
+			tiapp.file.should.equal(TESFIND_TIAPP_XML);
+			should.exist(tiapp.doc);
+		});
+
 	});
 
 	describe('#parse', function() {
