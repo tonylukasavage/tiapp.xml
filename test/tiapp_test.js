@@ -5,6 +5,7 @@ var path = require('path'),
 var ROOT = process.cwd(),
 	INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
 	TIAPP_XML = path.resolve('test', 'fixtures', 'tiapp.xml'),
+	TIAPP_BAD_XML = path.resolve('test', 'fixtures', 'tiapp.bad.xml'),
 	TESTFIND_END = path.resolve('test', 'fixtures', 'testfind', '1', '2', '3'),
 	TESFIND_TIAPP_XML = path.resolve('test', 'fixtures', 'testfind', 'tiapp.xml');
 
@@ -84,6 +85,20 @@ describe('Tiapp', function() {
 	});
 
 	describe('#load', function() {
+
+		it('should throw if file does not exist', function() {
+			var tiapp = new Tiapp();
+			(function() {
+				tiapp.load('./some/totally/fake/path/tiapp.xml');
+			}).should.throw(/not found/);
+		});
+
+		it('should throw if file is not valid XML', function() {
+			var tiapp = new Tiapp();
+			(function() {
+				tiapp.load(TIAPP_BAD_XML);
+			}).should.throw();
+		});
 
 	});
 
