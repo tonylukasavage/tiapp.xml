@@ -22,7 +22,10 @@ describe('tiapp.xml.js', function() {
 
 	it('should create Tiapp with explicit tiapp.xml', function() {
 		var tiapp = new Tiapp(TIAPP_XML);
-
+		tiapp.should.be.a.Tiapp;
+		tiapp.file.should.equal(TIAPP_XML);
+		tiapp.file = 'this should not change anything';
+		tiapp.file.should.equal(TIAPP_XML);
 	});
 
 	INVALID_TIAPP_ARGS.forEach(function(arg) {
