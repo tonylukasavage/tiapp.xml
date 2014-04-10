@@ -96,6 +96,14 @@ Tiapp.prototype.parse = function parse(xml) {
 
 	// parse the xml
 	this.doc = new xmldom.DOMParser().parseFromString(xml);
+
+	// make sure it's actually a tiapp.xml
+	if (!this.doc || !this.doc.documentElement || this.doc.documentElement.nodeName !== 'ti:app') {
+		var err = new TiappError('Parsed XML is not a tiapp.xml', xml);
+		err.xml = xml;
+		throw err;
+	}
+
 	return this;
 };
 
@@ -131,6 +139,7 @@ Tiapp.prototype.find = function find() {
 function isString(o) {
 	return Object.prototype.toString.call(o) === '[object String]';
 }
+
 function TiappError(msg, data) {
 	Error.call(this);
 	Error.captureStackTrace(this, arguments.callee);

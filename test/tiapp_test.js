@@ -149,7 +149,12 @@ describe('Tiapp', function() {
 			tiapp.parse(fs.readFileSync(TESTFIND_TIAPP_XML, 'utf8')).should.be.loadedTiapp;
 		});
 
-		it('should throw if parsed document is not a tiapp.xml');
+		it('should throw if parsed document is not a tiapp.xml', function() {
+			var tiapp = new Tiapp();
+			(function() {
+				tiapp.parse('<done></done>');
+			}).should.throw(/tiapp\.xml/);
+		});
 
 		INVALID_XML.forEach(function(xml) {
 			it('should throw on invalid xml "' + xml + '"', function() {
