@@ -50,7 +50,8 @@
 	</mobileweb>
 	<modules>
 		<module version="0.1" platform="ios">com.appc.foo</module>
-		<module platform="android,ios">com.appc.foobar</module>
+		<module platform="android">com.appc.foobar</module>
+		<module platform="ios">com.appc.foobar</module>
 		<module version="2.1">com.appc.bar</module>
 		<module>com.appc.quux</module>
 	</modules>
