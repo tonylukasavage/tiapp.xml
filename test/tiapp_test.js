@@ -148,13 +148,15 @@ describe('Tiapp', function() {
 			var modules = tiapp.modules.get();
 			should.exist(modules);
 			modules.should.be.an.Array;
-			modules.length.should.equal(4);
+			modules.length.should.equal(5);
 			_.find(modules, function(o) {
-				return o.id === 'com.appc.foo' && o.platform[0] === 'ios' && o.version === '0.1';
+				return o.id === 'com.appc.foo' && o.platform === 'ios' && o.version === '0.1';
 			}).should.be.ok;
 			_.find(modules, function(o) {
-				return o.id === 'com.appc.foobar' && o.platform[0] === 'android' &&
-					o.platform[1] === 'ios';
+				return o.id === 'com.appc.foobar' && o.platform === 'android';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.foobar' && o.platform === 'ios';
 			}).should.be.ok;
 			_.find(modules, function(o) {
 				return o.id === 'com.appc.bar' && o.version === '2.1';
@@ -196,7 +198,7 @@ describe('Tiapp', function() {
 			tiapp.modules.add({
 				id: 'com.tonylukasavage.foo',
 				version: '2.2',
-				platform: ['android', 'ios']
+				platform: 'android'
 			});
 
 			var modules = tiapp.modules.get('com.tonylukasavage.foo');
@@ -204,8 +206,7 @@ describe('Tiapp', function() {
 			modules.length.should.equal(1);
 			modules[0].id.should.equal('com.tonylukasavage.foo');
 			modules[0].version.should.equal('2.2');
-			modules[0].platform.should.containEql('android');
-			modules[0].platform.should.containEql('ios');
+			modules[0].platform.should.equal('android');
 		});
 
 		it('should write to a tiapp.xml');
