@@ -36,7 +36,7 @@ tiapp.write();
 
 ## API
 
-Generate it yourself, then open `doc/index.html` in a web browser.
+## Generating Docs
 
 ```bash
 $ npm install -g grunt-cli
@@ -44,3 +44,5 @@ $ cd /path/to/tiapp.xml
 $ npm install
 $ grunt jsdoc
 ```
+
+then open `doc/index.html` in a web browser
