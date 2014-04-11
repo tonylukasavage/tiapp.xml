@@ -12,10 +12,22 @@ var tiappXml = require('tiapp.xml');
 // load the Tiapp object from a tiapp.xml file
 var tiapp = tiappXml.load('/path/to/tiapp.xml');
 
+// print a list of existing modules
+tiapp.modules.get().forEach(function(mod) {
+	console.log(JSON.stringify(mod))
+});
+
 // add a new module
 tiapp.modules.add({
 	id: 'foo',
-	version: '2.2'
+	version: '2.2',
+	platform: 'android'
+});
+
+// now add a plugin
+tiapp.plugins.add({
+	id: 'ti.alloy',
+	version: '1.0'
 });
 
 // write the tiapp.xml back to the original file
@@ -28,5 +40,7 @@ Generate it yourself, then open `doc/index.html` in a web browser.
 
 ```bash
 $ npm install -g grunt-cli
+$ cd /path/to/tiapp.xml
+$ npm install
 $ grunt jsdoc
 ```
