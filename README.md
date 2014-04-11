@@ -9,6 +9,7 @@ A node.js parsing and manipulation API module for Appcelerator's [Titanium](http
 ```js
 var tiappXml = require('tiapp.xml');
 
+// load the Tiapp object from a tiapp.xml file
 var tiapp = tiappXml.load('/path/to/tiapp.xml');
 
 // add a new module
@@ -17,6 +18,7 @@ tiapp.modules.add({
 	version: '2.2'
 });
 
+// write the tiapp.xml back to the original file
 tiapp.write();
 ```
 
