@@ -223,7 +223,31 @@ describe('Tiapp', function() {
 			modules.length.should.equal(1);
 		});
 
-		it('should add an array of modules');
+		it('should add an array of modules', function() {
+			var tiapp = tiappXml.parse('<ti:app></ti:app>');
+			var modules = tiapp.modules.get('com.appc.bar');
+			should.exist(modules);
+			modules.length.should.equal(0);
+
+			tiapp.modules.add([
+				{ id: 'com.appc.bar' },
+				{ id: 'com.appc.foo' },
+				{ id: 'com.tonylukasavage.blahblah' }
+			]);
+			modules = tiapp.modules.get();
+			should.exist(modules);
+			modules.length.should.equal(3);
+
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.bar';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.foo';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.tonylukasavage.blahblah';
+			}).should.be.ok;
+		});
 
 		it('should fail quietly on a duplicate add', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
