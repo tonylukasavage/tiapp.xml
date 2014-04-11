@@ -1,7 +1,9 @@
-var fs = require('fs'),
+var _ = require('lodash'),
+	fs = require('fs'),
 	path = require('path'),
 	should = require('should'),
-	tiappXml = require('..');
+	tiappXml = require('..'),
+	U = require('../lib/util');
 
 var ROOT = process.cwd(),
 	INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
@@ -15,7 +17,7 @@ var ROOT = process.cwd(),
 // custom assertions for Tiapp
 should.Assertion.add('Tiapp', function() {
 	this.params = { operator: 'to be a Tiapp object' };
-	this.assert(this.obj && isFunction(this.obj.parse));
+	this.assert(this.obj && U.isFunction(this.obj.parse));
 }, true);
 
 should.Assertion.add('loadedTiapp', function() {
@@ -85,7 +87,7 @@ describe('Tiapp', function() {
 		});
 
 		INVALID_TIAPP_ARGS.forEach(function(arg) {
-			it('should throw when executed with "' + toString(arg) + '"', function() {
+			it('should throw when executed with "' + U.toString(arg) + '"', function() {
 				(function() {
 					tiappXml.load(arg);
 				}).should.throw(/Bad argument/);
@@ -121,7 +123,7 @@ describe('Tiapp', function() {
 		});
 
 		INVALID_TIAPP_ARGS.concat(undefined).forEach(function(arg) {
-			it('should throw if xml is "' + toString(arg) + '"', function() {
+			it('should throw if xml is "' + U.toString(arg) + '"', function() {
 				(function() {
 					tiappXml.parse(arg);
 				}).should.throw(/Bad argument/);
@@ -130,23 +132,84 @@ describe('Tiapp', function() {
 
 	});
 
+	describe('#Tiapp', function() {
+
+		it('should be created from load()', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			tiapp.file.should.equal(TIAPP_XML);
+			should.exist(tiapp.modules);
+			tiapp.modules.should.be.instanceOf.ItemGroup;
+			should.exist(tiapp.plugins);
+			tiapp.plugins.should.be.instanceOf.ItemGroup;
+		});
+
+		it('should get full list of modules', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			var modules = tiapp.modules.get();
+			should.exist(modules);
+			modules.should.be.an.Array;
+			modules.length.should.equal(4);
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.foo' && o.platform[0] === 'ios' && o.version === '0.1';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.foobar' && o.platform[0] === 'android' &&
+					o.platform[1] === 'ios';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.bar' && o.version === '2.1';
+			}).should.be.ok;
+			_.find(modules, function(o) {
+				return o.id === 'com.appc.quux';
+			}).should.be.ok;
+		});
+
+		it('should get module by id', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			var modules = tiapp.modules.get('com.appc.bar');
+			modules.length.should.equal(1);
+			modules[0].id.should.equal('com.appc.bar');
+			modules[0].version.should.equal('2.1');
+
+			tiapp.modules.get('fakemoduleid').length.should.equal(0);
+		});
+
+		it('should get module by filtering object', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			var modules = tiapp.modules.get({
+				id: 'com.appc.bar',
+				version: '2.1'
+			});
+			modules.length.should.equal(1);
+			modules[0].id.should.equal('com.appc.bar');
+			modules[0].version.should.equal('2.1');
+
+			modules = tiapp.modules.get({
+				id: 'com.appc.bar',
+				version: '2.2'
+			});
+			modules.length.should.equal(0);
+		});
+
+		it('should add a module to existing modules', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			tiapp.modules.add({
+				id: 'com.tonylukasavage.foo',
+				version: '2.2',
+				platform: ['android', 'ios']
+			});
+
+			var modules = tiapp.modules.get('com.tonylukasavage.foo');
+			should.exist(modules);
+			modules.length.should.equal(1);
+			modules[0].id.should.equal('com.tonylukasavage.foo');
+			modules[0].version.should.equal('2.2');
+			modules[0].platform.should.containEql('android');
+			modules[0].platform.should.containEql('ios');
+		});
+
+		it('should write to a tiapp.xml');
+
+	});
+
 });
-
-// utils
-function isFunction(o) {
-	return Object.prototype.toString.call(o) === '[object Function]';
-}
-
-function toString(o) {
-	if (typeof o === 'undefined') {
-		return 'undefined';
-	} else if (o !== o) {
-		return 'NaN';
-	} else if (Array.isArray(o)) {
-		return '[' + o.toString() + ']';
-	} else if (o === null) {
-		return 'null';
-	} else {
-		return o !== null ? o.toString() : Object.prototype.toString.call(o);
-	}
-}

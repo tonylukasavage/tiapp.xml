@@ -34,7 +34,8 @@
     "grunt-mocha-test": "~0.10.0",
     "grunt-contrib-jshint": "~0.10.0",
     "should": "~3.3.0",
-    "grunt-jsdoc": "~0.5.4"
+    "grunt-jsdoc": "~0.5.4",
+    "lodash": "~2.4.1"
   },
   "engines": {
     "node": ">=0.10"
