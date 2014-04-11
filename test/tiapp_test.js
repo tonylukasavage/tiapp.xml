@@ -6,6 +6,7 @@ var _ = require('lodash'),
 	U = require('../lib/util');
 
 var ROOT = process.cwd(),
+	TMP = path.resolve('tmp'),
 	INVALID_TIAPP_ARGS = [123, function(){}, [1,2,3], true, false, NaN, Infinity, null],
 	TIAPP_XML = path.resolve('test', 'fixtures', 'tiapp.xml'),
 	TIAPP_BAD_XML = path.resolve('test', 'fixtures', 'tiapp.bad.xml'),
@@ -27,6 +28,11 @@ should.Assertion.add('loadedTiapp', function() {
 	this.assert(this.obj.doc.documentElement !== null && typeof this.obj.doc.documentElement !== 'undefined');
 	this.assert(this.obj.doc.documentElement.nodeName === 'ti:app');
 }, true);
+
+// create temp folder
+if (!fs.existsSync(TMP)) {
+	fs.mkdirSync(TMP);
+}
 
 // test suite
 describe('Tiapp', function() {
@@ -308,7 +314,39 @@ describe('Tiapp', function() {
 			modules.length.should.equal(2);
 		});
 
-		it('should write to a tiapp.xml');
+		it('should write to a tiapp.xml using explicit file', function() {
+			var file = path.resolve('tmp', 'tiapp.xml');
+			var tiapp = tiappXml.load(TIAPP_XML);
+			var modules = tiapp.modules.get('testmodule');
+			should.exist(modules);
+			modules.length.should.equal(0);
+
+			tiapp.modules.add('testmodule');
+			tiapp.write(file);
+
+			tiapp = tiappXml.load(file);
+			modules = tiapp.modules.get('testmodule');
+			should.exist(modules);
+			modules.length.should.equal(1);
+			modules[0].id.should.equal('testmodule');
+		});
+
+		it('should write to a tiapp.xml using this.file', function() {
+			var file = path.resolve('tmp', 'tiapp.xml');
+			var tiapp = tiappXml.load(file);
+			var modules = tiapp.plugins.get('someplugin');
+			should.exist(modules);
+			modules.length.should.equal(0);
+
+			tiapp.plugins.add('someplugin');
+			tiapp.write();
+
+			tiapp = tiappXml.load(file);
+			modules = tiapp.plugins.get('someplugin');
+			should.exist(modules);
+			modules.length.should.equal(1);
+			modules[0].id.should.equal('someplugin');
+		});
 
 	});
 

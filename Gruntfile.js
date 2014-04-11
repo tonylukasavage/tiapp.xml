@@ -55,16 +55,20 @@ module.exports = function(grunt) {
 					template: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template'
 				}
 			}
+		},
+		clean: {
+			src: ['tmp']
 		}
 	});
 
 	// Load grunt plugins for modules
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// Register tasks
 	grunt.registerTask('test', ['mochaTest']);
-	grunt.registerTask('default', ['jshint', 'mochaTest', 'jsdoc']);
+	grunt.registerTask('default', ['jshint', 'mochaTest', 'clean', 'jsdoc']);
 
 };
