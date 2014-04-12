@@ -36,7 +36,7 @@ tiapp.write();
 
 ## API
 
-### [http://tonylukasavage.com/tiapp.xml](http://tonylukasavage.com/tiapp.xml)
+### [http://tonylukasavage.github.io/tiapp.xml](http://tonylukasavage.github.io/tiapp.xml)
 
 ## Generating Docs
 
