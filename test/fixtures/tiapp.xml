@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
-	<id>com.tonylukasavage.ti2048</id>
+	<id>com.tonylukasavage.tiapp</id>
 	<name>tiappxml</name>
 	<version>1.0</version>
 	<publisher>not specified</publisher>

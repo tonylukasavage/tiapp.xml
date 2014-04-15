@@ -348,6 +348,27 @@ describe('Tiapp', function() {
 			modules[0].id.should.equal('someplugin');
 		});
 
+		it('should get/set top level tiapp.xml elements', function() {
+			var file = path.resolve('tmp', 'tiapp.xml');
+			var tiapp = tiappXml.load(file);
+
+			tiapp.id.should.equal('com.tonylukasavage.tiapp');
+			tiapp.id = 'fakeid';
+			tiapp.id.should.equal('fakeid');
+
+			tiapp.guid.should.equal('d3064db6-6d84-43c1-a65d-aa720541db99');
+			tiapp.guid = 'fakeguid';
+			tiapp.guid.should.equal('fakeguid');
+
+			tiapp['navbar-hidden'].should.equal('false');
+			tiapp['navbar-hidden'] = true;
+			tiapp['navbar-hidden'].should.equal('true');
+			tiapp['navbar-hidden'] = 'true';
+			tiapp['navbar-hidden'].should.equal('true');
+			tiapp['navbar-hidden'] = false;
+			tiapp['navbar-hidden'].should.equal('false');
+		});
+
 	});
 
 });
