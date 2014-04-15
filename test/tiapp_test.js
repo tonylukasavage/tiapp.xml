@@ -1,4 +1,5 @@
 var _ = require('lodash'),
+	constants = require('constants'),
 	fs = require('fs'),
 	path = require('path'),
 	should = require('should'),
@@ -367,6 +368,14 @@ describe('Tiapp', function() {
 			tiapp['navbar-hidden'].should.equal('true');
 			tiapp['navbar-hidden'] = false;
 			tiapp['navbar-hidden'].should.equal('false');
+
+			tiapp.analytics.should.equal('true');
+			tiapp.analytics = true;
+			tiapp.analytics.should.equal('true');
+			tiapp.analytics = 'true';
+			tiapp.analytics.should.equal('true');
+			tiapp.analytics = false;
+			tiapp.analytics.should.equal('false');
 		});
 
 	});
