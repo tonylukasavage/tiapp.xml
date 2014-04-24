@@ -30,11 +30,57 @@ tiapp.plugins.add({
 	version: '1.0'
 });
 
+tiapp.guid = 'somefakeguid';
+
+tiapp.property.set();
+
 // write the tiapp.xml back to the original file
 tiapp.write();
 ```
 
 ## API
+
+### top-level elements
+
+Get and set [top-level tiapp.xml elements](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+console.log(tiapp.name + ': ' + tiapp.guid); // prints the name and guid of the app
+tiapp.analytics = false;                     // disable analytics
+tiapp['sdk-version'] = '3.2.2.GA';           // change the sdk version
+tiapp.write();                               // write the changes to the tiapp.xml
+```
+
+### properties
+
+You can get, set, and delete [application properties](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-app_properties).
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+tiapp.property('name', 'type', 'value'); //set
+tiapp.property('name', 'value'); //set
+tiapp.property('name'); //get
+tiapp.removeProperty('name'); //delete
+```
+
+### deployment-targets
+
+Get and set [deployment targets](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+tiapp['deployment-targets'].blackberry = false;
+```
+
+### modules
+
+### plugins
+
+### cloud/acs
 
 ### [http://tonylukasavage.github.io/tiapp.xml](http://tonylukasavage.github.io/tiapp.xml)
 
