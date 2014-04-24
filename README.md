@@ -42,7 +42,7 @@ tiapp.write();
 
 ### top-level elements
 
-Get and set [top-level tiapp.xml elements](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
+Get and set [top-level tiapp.xml elements](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
@@ -55,7 +55,7 @@ tiapp.write();                               // write the changes to the tiapp.x
 
 ### properties
 
-You can get, set, and delete [application properties](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-app_properties).
+You can get, set, and delete [application properties](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-ApplicationProperties).
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
@@ -68,7 +68,7 @@ tiapp.removeProperty('name'); //delete
 
 ### deployment-targets
 
-Get and set [deployment targets](https://wiki.appcelerator.org/display/guides2/tiapp.xml+and+timodule.xml+Reference#tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
+Get and set [deployment targets](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-deployment-target) directly as properties.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
