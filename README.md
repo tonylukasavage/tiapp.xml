@@ -1,4 +1,4 @@
-> **NOT YET FUNCTIONAL**
+> **NOT YET FUNCTIONAL. API STILL IN DESIGN.**
 
 # tiapp.xml [![Build Status](https://travis-ci.org/tonylukasavage/tiapp.xml.svg?branch=master)](https://travis-ci.org/tonylukasavage/tiapp.xml) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
@@ -40,17 +40,70 @@ tiapp.write();
 
 ## API
 
+### load(file)
+
+Load a tiapp.xml file and return a Tiapp object. If `file` is undefined, [find()]() will attempt to locate a tiapp.xml file.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+```
+
+### parse(xmlString, filename)
+
+Parse an xml string as a tiapp.xml document. This is used by `load()` and generally isn't used directly. `filename` is optional, and is used only as a default value if you attempt to [Tiapp.write()]() later.
+
+```js
+var tiapp = require('tiapp.xml').parse('<ti:app><!-- the rest of the tiapp.xml --></ti:app>');
+```
+
+### find()
+
+Find a tiapp.xml file and return its file path. It will start by searching the current working directory for a tiapp.xml file. If it doesn't find it, it will continue to move up the folder hierarchy attempting to find tiapp.xml files. If it never finds a tiapp.xml, it returns `null`.
+
+```js
+var pathToTiappXml = require('tiapp.xml').find();
+```
+
 ### top-level elements
 
-Get and set [top-level tiapp.xml elements](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties.
+Get and set [top-level tiapp.xml elements](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties. These properties can be referenced in dash form or camel case. For example, to work with the `sdk-version` you can use either `tiapp['sdk-version']` or `tiapp.sdkVersion`.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
-console.log(tiapp.name + ': ' + tiapp.guid); // prints the name and guid of the app
-tiapp.analytics = false;                     // disable analytics
-tiapp['sdk-version'] = '3.2.2.GA';           // change the sdk version
-tiapp.write();                               // write the changes to the tiapp.xml
+// prints the name and guid of the app
+console.log(tiapp.name + ': ' + tiapp.guid);
+
+// disable analytics
+tiapp.analytics = false;
+
+// change the sdk version
+tiapp['sdk-version'] = '3.2.2.GA';
+
+// write the changes to the tiapp.xml
+tiapp.write();
+```
+
+### deployment-targets
+
+Get and set [deployment targets](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-deployment-target) directly as properties. You can access them via `tiapp['deployment-targets']` or `tiapp.deploymentTargets`.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+tiapp.deploymentTargets.android = true;
+tiapp.deploymentTargets.blackberry = false;
+tiapp.deploymentTargets.mobileweb = false;
+
+// set ios devices individually
+tiapp.deploymentTargets.iphone = true;
+tiapp.deploymentTargets.ipad = true;
+
+// or set both iphone and ipad at once
+tiapp.deploymentTargets.ios = true;
+
+// write out the changes
+tiapp.write();
 ```
 
 ### properties
@@ -60,20 +113,17 @@ You can get, set, and delete [application properties](http://docs.appcelerator.c
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
-tiapp.property('name', 'type', 'value'); //set
-tiapp.property('name', 'value'); //set
-tiapp.property('name'); //get
-tiapp.removeProperty('name'); //delete
-```
+// set with a type and value
+tiapp.property('name', 'type', 'value');
 
-### deployment-targets
+// set with just a value
+tiapp.property('name', 'value');
 
-Get and set [deployment targets](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-deployment-target) directly as properties.
+// get the property's value
+tiapp.property('name');
 
-```js
-var tiapp = require('tiapp.xml').load('./tiapp.xml');
-
-tiapp['deployment-targets'].blackberry = false;
+// delete a property
+tiapp.removeProperty('name');
 ```
 
 ### modules
@@ -82,7 +132,7 @@ tiapp['deployment-targets'].blackberry = false;
 
 ### cloud/acs
 
-### [http://tonylukasavage.github.io/tiapp.xml](http://tonylukasavage.github.io/tiapp.xml)
+### platform-specific sections
 
 ## Generating Docs
 
