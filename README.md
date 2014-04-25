@@ -4,40 +4,6 @@
 
 A node.js parsing and manipulation API module for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file.
 
-## Example
-
-```js
-var tiappXml = require('tiapp.xml');
-
-// load the Tiapp object from a tiapp.xml file
-var tiapp = tiappXml.load('/path/to/tiapp.xml');
-
-// print a list of existing modules
-tiapp.modules.get().forEach(function(mod) {
-	console.log(JSON.stringify(mod))
-});
-
-// add a new module
-tiapp.modules.add({
-	id: 'foo',
-	version: '2.2',
-	platform: 'android'
-});
-
-// now add a plugin
-tiapp.plugins.add({
-	id: 'ti.alloy',
-	version: '1.0'
-});
-
-tiapp.guid = 'somefakeguid';
-
-tiapp.property.set();
-
-// write the tiapp.xml back to the original file
-tiapp.write();
-```
-
 ## API
 
 ### load(file)
@@ -64,6 +30,23 @@ Find a tiapp.xml file and return its file path. It will start by searching the c
 var pathToTiappXml = require('tiapp.xml').find();
 ```
 
+### Tiapp.write(file)
+
+Write the current Tiapp object out as a tiapp.xml file to `file`. If `file` is undefined, it will use the file supplied in the inital [load()]() or [parse()]() call. If it still can't find a file, an exception with be thrown.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+// disable analytics
+tiapp.analytics = false;
+
+// write out the changes to "./tiapp.xml"
+tiapp.write();
+
+// or write out to an explicit location
+tiapp.write('/path/to/tiapp.xml');
+```
+
 ### top-level elements
 
 Get and set [top-level tiapp.xml elements](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-TopLevelElements) directly as properties. These properties can be referenced in dash form or camel case. For example, to work with the `sdk-version` you can use either `tiapp['sdk-version']` or `tiapp.sdkVersion`.
@@ -79,9 +62,6 @@ tiapp.analytics = false;
 
 // change the sdk version
 tiapp['sdk-version'] = '3.2.2.GA';
-
-// write the changes to the tiapp.xml
-tiapp.write();
 ```
 
 ### deployment-targets
@@ -91,49 +71,103 @@ Get and set [deployment targets](http://docs.appcelerator.com/titanium/latest/#!
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
-tiapp.deploymentTargets.android = true;
-tiapp.deploymentTargets.blackberry = false;
-tiapp.deploymentTargets.mobileweb = false;
+// get
+tiapp.deploymentTargets.get('android');
+
+// set
+tiapp.deploymentTargets.set('android', true);
+tiapp.deploymentTargets.set('blackberry', false);
+tiapp.deploymentTargets.set('mobileweb', false);
 
 // set ios devices individually
-tiapp.deploymentTargets.iphone = true;
-tiapp.deploymentTargets.ipad = true;
+tiapp.deploymentTargets.set('iphone', true);
+tiapp.deploymentTargets.set('ipad', true);
 
 // or set both iphone and ipad at once
-tiapp.deploymentTargets.ios = true;
-
-// write out the changes
-tiapp.write();
+tiapp.deploymentTargets.set('ios', true);
 ```
 
 ### properties
 
-You can get, set, and delete [application properties](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-ApplicationProperties).
+You can get, set, and remove [application properties](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference-section-29004921_tiapp.xmlandtimodule.xmlReference-ApplicationProperties).
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
+// get the property's value
+tiapp.property.get('ti.ui.defaultunit');
+
 // set with a type and value
-tiapp.property('name', 'type', 'value');
+tiapp.property.set('ti.ui.defaultunit', 'string', 'dip');
 
 // set with just a value
-tiapp.property('name', 'value');
-
-// get the property's value
-tiapp.property('name');
+tiapp.property.set('ti.ui.defaultunit', 'dip');
 
 // delete a property
-tiapp.removeProperty('name');
+tiapp.property.remove('ti.ui.defaultunit');
 ```
 
 ### modules
 
+Get, set, add, and remove modules listed in your tiapp.xml.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+var modules = tiapp.modules.get();
+
+// iterate through a list of modules from the tiapp.xml
+modules.forEach(function(mod) {
+
+	// access properties on module object
+	console.log('name=%s,version=%s,platform=%s',
+		mod.name, mod.version || '<no version>', mod.platform || '<no platform>');
+
+	// set properties on a module
+	mod.version = '2.1';
+	mod.platform = 'iphone';
+
+});
+
+// remove a module
+modules[0].remove();
+
+// add a new module, overwrite if it already exists
+tiapp.modules.add({
+	name: 'ti.someModule',
+	version: '1.0',
+	platform: 'android'
+});
+```
+
 ### plugins
 
-### cloud/acs
+Get, set, add, and remove plugins listed in your tiapp.xml.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+var plugins = tiapp.plugins.get();
+
+// iterate through a list of modules from the tiapp.xml
+plugins.forEach(function(plugin) {
+
+	// access properties on plugin object
+	console.log('name=%s,version=%s', plugin.name, plugin.version || '<no version>');
+
+	// set properties on a plugin
+	plugin.version = '1.1';
+
+});
+
+// remove a plugin
+plugin[0].remove();
+
+// add a new plugin, overwrite if it already exists
+tiapp.plugins.add({
+	name: 'ti.somePlugin',
+	version: '1.0'
+});
+```
 
 ### platform-specific sections
 
-
-
-then open `doc/index.html` in a web browser
+> **NOT YET IMPLEMENTED**
