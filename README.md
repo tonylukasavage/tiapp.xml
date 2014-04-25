@@ -71,20 +71,20 @@ Get and set [deployment targets](http://docs.appcelerator.com/titanium/latest/#!
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
-// get
-tiapp.deploymentTargets.get('android');
-
 // set
-tiapp.deploymentTargets.set('android', true);
-tiapp.deploymentTargets.set('blackberry', false);
-tiapp.deploymentTargets.set('mobileweb', false);
+tiapp.deploymentTargets.android = true;
+tiapp.deploymentTargets.blackberry = false;
+tiapp.deploymentTargets.mobileweb = false;
 
 // set ios devices individually
-tiapp.deploymentTargets.set('iphone', true);
-tiapp.deploymentTargets.set('ipad', true);
+tiapp.deploymentTargets.iphone = true;
+tiapp.deploymentTargets.ipad = true;
 
 // or set both iphone and ipad at once
-tiapp.deploymentTargets.set('ios', true);
+tiapp.deploymentTargets.ios = true;
+
+// get
+console.log(tiapp.deploymentTargets.android); // prints true
 ```
 
 ### properties
@@ -113,6 +113,8 @@ Get, set, add, and remove modules listed in your tiapp.xml.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+// return an array of module objects
 var modules = tiapp.modules.get();
 
 // iterate through a list of modules from the tiapp.xml
@@ -145,6 +147,8 @@ Get, set, add, and remove plugins listed in your tiapp.xml.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+// return an array of plugin objects
 var plugins = tiapp.plugins.get();
 
 // iterate through a list of modules from the tiapp.xml
