@@ -46,16 +46,6 @@ module.exports = function(grunt) {
 			},
 			src: ['lib/tiapp.xml.js']
 		},
-		jsdoc: {
-			dist: {
-				src: ['lib/*.js'],
-				options: {
-					destination: 'doc',
-					configure: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json',
-					template: 'node_modules/grunt-jsdoc/node_modules/ink-docstrap/template'
-				}
-			}
-		},
 		clean: {
 			src: ['tmp']
 		}
@@ -65,10 +55,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-jsdoc');
 
 	// Register tasks
 	grunt.registerTask('test', ['mochaTest']);
-	grunt.registerTask('default', ['jshint', 'mochaTest', 'clean', 'jsdoc']);
+	grunt.registerTask('default', ['jshint', 'mochaTest', 'clean']);
 
 };

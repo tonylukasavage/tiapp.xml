@@ -134,13 +134,6 @@ tiapp.removeProperty('name');
 
 ### platform-specific sections
 
-## Generating Docs
 
-```bash
-$ npm install -g grunt-cli
-$ cd /path/to/tiapp.xml
-$ npm install
-$ grunt jsdoc
-```
 
 then open `doc/index.html` in a web browser
