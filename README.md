@@ -8,6 +8,28 @@ A node.js parsing and manipulation API module for Appcelerator's [Titanium](http
 
 ### Change the Titanium SDK version
 
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+tiapp.sdkVersion = '3.2.2.GA';
+tiapp.write();
+```
+
+### Disable analytics
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+tiapp.analytics = false;
+tiapp.write();
+```
+
+### Add a new native module for android
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+tiapp.setModule('com.tonylukasavage.someCoolModule', '1.0', 'android');
+tiapp.write();
+```
+
 ## API
 
 * module APIs
@@ -270,37 +292,6 @@ tiapp.removePlugin('ti.alloy');
 tiapp.write();
 ```
 
-### plugins
+## Todo
 
-Get, set, add, and remove plugins listed in your tiapp.xml.
-
-```js
-var tiapp = require('tiapp.xml').load('./tiapp.xml');
-
-// return an array of plugin objects
-var plugins = tiapp.plugins.get();
-
-// iterate through a list of modules from the tiapp.xml
-plugins.forEach(function(plugin) {
-
-	// access properties on plugin object
-	console.log('name=%s,version=%s', plugin.name, plugin.version || '<no version>');
-
-	// set properties on a plugin
-	plugin.version = '1.1';
-
-});
-
-// remove a plugin
-plugin[0].remove();
-
-// add a new plugin, overwrite if it already exists
-tiapp.plugins.add({
-	name: 'ti.somePlugin',
-	version: '1.0'
-});
-```
-
-### platform-specific sections
-
-> **NOT YET IMPLEMENTED**
+* Platform-specific tiapp.xml sections
