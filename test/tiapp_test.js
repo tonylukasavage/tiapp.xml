@@ -381,6 +381,35 @@ describe('Tiapp', function() {
 			tiapp.analytics.should.equal('false');
 		});
 
+		it('should get deployment-targets', function() {
+			var file = path.resolve('tmp', 'tiapp.xml');
+			var tiapp = tiappXml.load(file);
+
+			tiapp.getDeploymentTarget('android').should.be.true;
+			tiapp.getDeploymentTarget('blackberry').should.be.true;
+			tiapp.getDeploymentTarget('iphone').should.be.true;
+			tiapp.getDeploymentTarget('ipad').should.be.true;
+			tiapp.getDeploymentTarget('mobileweb').should.be.true;
+			tiapp.getDeploymentTarget('tizen').should.be.true;
+			should.equal(tiapp.getDeploymentTarget('what?'), null);
+			should.equal(tiapp.getDeploymentTarget(), null);
+			should.equal(tiapp.getDeploymentTarget(123), null);
+			should.equal(tiapp.getDeploymentTarget(function(){}), null);
+
+			// TODO: return null id <deployment-targets> doesn't exist
+		});
+
+		it('should set deployment-targets');
+		it('should get application properties');
+		it('should set application properties');
+		it('should get all modules');
+		it('should set modules');
+		it('should remove modules');
+		it('should get all plugins');
+		it('should set plugins');
+		it('should remove plugins');
+
+
 	});
 
 });
