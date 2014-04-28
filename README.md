@@ -45,11 +45,11 @@ tiapp.write();
 	* [setProperty](#setpropertyname-value-type)
 	* [removeProperty](#removepropertyname)
 	* [getModules](#getmodules)
-	* [setModule](#setmoduleid-platform-version)
+	* [setModule](#setmoduleid-version-platform)
 	* [removeModule](#removemoduleid-platform)
 	* [getPlugins](#getplugins)
 	* [setPlugin](#setpluginid-version)
-	* [removePlugin](#removepluginid-version)
+	* [removePlugin](#removepluginid)
 
 ### load(file)
 
