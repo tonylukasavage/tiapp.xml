@@ -407,6 +407,7 @@ describe('Tiapp', function() {
 			tiapp.getDeploymentTarget('mobileweb').should.be.false;
 			tiapp.getDeploymentTarget('tizen').should.be.false;
 
+			// TODO: test bad data for setDeploymentTarget
 			// TODO: return null id <deployment-targets> doesn't exist
 		});
 
