@@ -39,17 +39,21 @@ tiapp.write();
 * tiapp APIs
 	* [write](#writefile)
 	* [top-level elements](#top-level-elements)
-	* [getDeploymentTarget](#getdeploymenttargetplatform)
-	* [setDeploymentTarget](#setdeploymenttargetplatform-value)
-	* [getProperty](#getpropertyname)
-	* [setProperty](#setpropertyname-value-type)
-	* [removeProperty](#removepropertyname)
-	* [getModules](#getmodules)
-	* [setModule](#setmoduleid-version-platform)
-	* [removeModule](#removemoduleid-platform)
-	* [getPlugins](#getplugins)
-	* [setPlugin](#setpluginid-version)
-	* [removePlugin](#removepluginid)
+	* deployment-targets
+		* [getDeploymentTarget](#getdeploymenttargetplatform)
+		* [setDeploymentTarget](#setdeploymenttargetplatform-value)
+	* application proeprties
+		* [getProperty](#getpropertyname)
+		* [setProperty](#setpropertyname-value-type)
+		* [removeProperty](#removepropertyname)
+	* modules
+		* [getModules](#getmodules)
+		* [setModule](#setmoduleid-version-platform)
+		* [removeModule](#removemoduleid-platform)
+	* plugins
+		* [getPlugins](#getplugins)
+		* [setPlugin](#setpluginid-version)
+		* [removePlugin](#removepluginid)
 
 ### load(file)
 
