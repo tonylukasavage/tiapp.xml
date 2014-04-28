@@ -33,14 +33,14 @@ tiapp.write();
 ## API
 
 * module APIs
-	* load()
-	* parse()
-	* find()
+	* [load](#loadfile)
+	* [parse](#parsexmlstring-filename)
+	* [find]()
 * tiapp APIs
-	* write()
-	* top-level elements
-	* getDeploymentTarget(platform)
-	* setDeploymentTarget(platform, value)
+	* [write](#writefile)
+	* [top-level elements](#top-level-elements)
+	* [getDeploymentTarget](#getdeploymenttargetplatform)
+	* [setDeploymentTarget](#setdeploymenttargetplatform-value)
 	* getProperty(name)
 	* setProperty(name, [value], [type])
 	* removeProperty(name)
