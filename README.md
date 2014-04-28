@@ -53,7 +53,7 @@ tiapp.write();
 
 ### load(file)
 
-Load a tiapp.xml file and return a Tiapp object. If `file` is undefined, [find()]() will attempt to locate a tiapp.xml file.
+Load a tiapp.xml file and return a Tiapp object. If `file` is undefined, [find()](#find) will attempt to locate a tiapp.xml file.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
@@ -61,7 +61,7 @@ var tiapp = require('tiapp.xml').load('./tiapp.xml');
 
 ### parse(xmlString, filename)
 
-Parse an xml string as a tiapp.xml document and return a Tiapp object. This is used by `load()` and generally isn't used directly. `filename` is optional, and is used only as a default value if you attempt to [Tiapp.write()]() later.
+Parse an xml string as a tiapp.xml document and return a Tiapp object. This is used by `load()` and generally isn't used directly. `filename` is optional, and is used only as a default value if you attempt to [write()](#writefile) later.
 
 ```js
 var tiapp = require('tiapp.xml').parse('<ti:app><!-- the rest of the tiapp.xml --></ti:app>');
@@ -77,7 +77,7 @@ var pathToTiappXml = require('tiapp.xml').find();
 
 ### write([file])
 
-Write the current Tiapp object out as a tiapp.xml file to `file`. If `file` is undefined, it will use the file supplied in the inital [load()]() or [parse()]() call. If it still can't find a file, an exception with be thrown.
+Write the current Tiapp object out as a tiapp.xml file to `file`. If `file` is undefined, it will use the file supplied in the inital [load()](#loadfile) or [parse()](#parsexmlstring-filename) call. If it still can't find a file, an exception with be thrown.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
