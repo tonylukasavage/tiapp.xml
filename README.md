@@ -42,7 +42,7 @@ tiapp.write();
 	* deployment-targets
 		* [getDeploymentTarget](#getdeploymenttargetplatform)
 		* [setDeploymentTarget](#setdeploymenttargetplatform-value)
-	* application proeprties
+	* application properties
 		* [getProperty](#getpropertyname)
 		* [setProperty](#setpropertyname-value-type)
 		* [removeProperty](#removepropertyname)
