@@ -353,6 +353,9 @@ describe('Tiapp', function() {
 			var file = path.resolve('tmp', 'tiapp.xml');
 			var tiapp = tiappXml.load(file);
 
+			tiapp.sdkVersion.should.equal('3.2.2.GA');
+			tiapp['sdk-version'].should.equal('3.2.2.GA');
+
 			tiapp.id.should.equal('com.tonylukasavage.tiapp');
 			tiapp.id = 'fakeid';
 			tiapp.id.should.equal('fakeid');
