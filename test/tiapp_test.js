@@ -350,8 +350,9 @@ describe('Tiapp', function() {
 		});
 
 		it('should get/set top level tiapp.xml elements', function() {
-			var file = path.resolve('tmp', 'tiapp.xml');
-			var tiapp = tiappXml.load(file);
+			// var file = path.resolve('tmp', 'tiapp.xml');
+			// console.log(file);
+			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.sdkVersion.should.equal('3.2.2.GA');
 			tiapp['sdk-version'].should.equal('3.2.2.GA');
@@ -381,9 +382,8 @@ describe('Tiapp', function() {
 			tiapp.analytics.should.equal('false');
 		});
 
-		it('should get and set deployment-targets', function() {
-			var file = path.resolve('tmp', 'tiapp.xml');
-			var tiapp = tiappXml.load(file);
+		it('should get deployment-targets', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.getDeploymentTarget('android').should.be.true;
 			tiapp.getDeploymentTarget('blackberry').should.be.true;
@@ -395,6 +395,10 @@ describe('Tiapp', function() {
 			should.equal(tiapp.getDeploymentTarget(), null);
 			should.equal(tiapp.getDeploymentTarget(123), null);
 			should.equal(tiapp.getDeploymentTarget(function(){}), null);
+		});
+
+		it('should set deployment-targets', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.setDeploymentTarget('android', false);
 			tiapp.setDeploymentTarget('blackberry', false);
@@ -411,8 +415,31 @@ describe('Tiapp', function() {
 			// TODO: return null id <deployment-targets> doesn't exist
 		});
 
-		it('should get application properties');
-		it('should set application properties');
+		it('should get application properties', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			tiapp.getProperty('ti.ui.defaultunit').should.equal('dp');
+		});
+
+		it('should set application properties', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			tiapp.setProperty('com.tonylukasavage.property', 'somevalue');
+			tiapp.setProperty('com.tonylukasavage.bool', 'bool', false);
+			tiapp.setProperty('com.tonylukasavage.number', 'int', 123);
+			tiapp.setProperty('com.tonylukasavage.float', 'double', 123.123);
+			tiapp.setProperty('ti.ui.defaultunit', 'string', 'system');
+
+			tiapp.getProperty('com.tonylukasavage.property').should.equal('somevalue');
+			tiapp.getProperty('com.tonylukasavage.bool').should.equal(false);
+			tiapp.getProperty('com.tonylukasavage.number').should.equal(123);
+			tiapp.getProperty('com.tonylukasavage.float').should.equal(123.123);
+			tiapp.getProperty('ti.ui.defaultunit').should.equal('system');
+
+			tiapp.setProperty('com.tonylukasavage.property', 'different');
+			tiapp.getProperty('com.tonylukasavage.property').should.equal('different');
+
+		});
+
 		it('should get all modules');
 		it('should set modules');
 		it('should remove modules');
