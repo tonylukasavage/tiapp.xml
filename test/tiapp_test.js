@@ -437,7 +437,14 @@ describe('Tiapp', function() {
 
 			tiapp.setProperty('com.tonylukasavage.property', 'different');
 			tiapp.getProperty('com.tonylukasavage.property').should.equal('different');
+		});
 
+		it('should remove properties', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			tiapp.getProperty('ti.ui.defaultunit').should.equal('dp');
+			tiapp.removeProperty('ti.ui.defaultunit');
+			should.equal(tiapp.getProperty('ti.ui.defaultunit'), null);
 		});
 
 		it('should get all modules');
