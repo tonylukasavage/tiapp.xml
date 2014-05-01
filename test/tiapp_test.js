@@ -534,7 +534,24 @@ describe('Tiapp', function() {
 			should.not.exist(modules[0].platform);
 		});
 
-		it('should remove a module');
+		it('should remove a module', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			tiapp.removeModule('com.appc.foobar', 'ios');
+			tiapp.removeModule('com.appc.foobar', 'android');
+			tiapp.removeModule('com.appc.quux');
+
+			var modules = tiapp.getModules();
+			should.exist(modules);
+			modules.should.be.an.Array;
+			modules.length.should.equal(2);
+
+			(function() {
+				tiapp.removeModule('i.do.not.exist');
+				tiapp.removeModule();
+			}).should.not.throw();
+		});
+
 		it('should get all plugins');
 		it('should set plugins');
 		it('should remove plugins');
