@@ -382,7 +382,7 @@ describe('Tiapp', function() {
 			tiapp.analytics.should.equal('false');
 		});
 
-		it('should get deployment-targets', function() {
+		it('should get single deployment-target', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.getDeploymentTarget('android').should.be.true;
@@ -397,7 +397,21 @@ describe('Tiapp', function() {
 			should.equal(tiapp.getDeploymentTarget(function(){}), null);
 		});
 
-		it('should set deployment-targets', function() {
+		it.skip('should get all deployment-targets', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			var targets = tiapp.getDeploymentTargets();
+			should.exist(targets);
+			targets.should.be.an.Object;
+			targets.android.should.equal(true);
+			targets.blackberry.should.equal(true);
+			targets.ipad.should.equal(true);
+			targets.iphone.should.equal(true);
+			targets.mobileweb.should.equal(true);
+			targets.tizen.should.equal(true);
+		});
+
+		it('should set single deployment-target', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.setDeploymentTarget('android', false);
@@ -414,6 +428,8 @@ describe('Tiapp', function() {
 			// TODO: test bad data for setDeploymentTarget
 			// TODO: return null id <deployment-targets> doesn't exist
 		});
+
+		it('should set all deployment-targets');
 
 		it('should get application properties', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
@@ -447,9 +463,41 @@ describe('Tiapp', function() {
 			should.equal(tiapp.getProperty('ti.ui.defaultunit'), null);
 		});
 
-		it('should get all modules');
-		it('should set modules');
-		it('should remove modules');
+// <modules>
+// 		<module version="0.1" platform="ios">com.appc.foo</module>
+// 		<module platform="android">com.appc.foobar</module>
+// 		<module platform="ios">com.appc.foobar</module>
+// 		<module version="2.1">com.appc.bar</module>
+// 		<module>com.appc.quux</module>
+// 	</modules>
+
+		it('should get all modules', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			var modules = tiapp.getModules();
+			should.exist(modules);
+			modules.should.be.an.Array;
+			modules.length.should.equal(5);
+
+			var tests = [
+				{ id: 'com.appc.foo', version: '0.1', platform: 'ios' },
+				{ id: 'com.appc.foobar', platform: 'android' },
+				{ id: 'com.appc.foobar', platform: 'ios' },
+				{ id: 'com.appc.bar', version: '2.1' },
+				{ id: 'com.appc.quux' }
+			];
+			for (var i = 0; i < tests.length; i++) {
+				var test = tests[i],
+					mod = modules[i];
+
+				should.equal(mod.id, test.id);
+				should.equal(mod.version, test.version);
+				should.equal(mod.platform, test.platform);
+			}
+		});
+
+		it('should set a module');
+		it('should remove a module');
 		it('should get all plugins');
 		it('should set plugins');
 		it('should remove plugins');
