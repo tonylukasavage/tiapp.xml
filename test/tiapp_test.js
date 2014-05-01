@@ -463,14 +463,6 @@ describe('Tiapp', function() {
 			should.equal(tiapp.getProperty('ti.ui.defaultunit'), null);
 		});
 
-// <modules>
-// 		<module version="0.1" platform="ios">com.appc.foo</module>
-// 		<module platform="android">com.appc.foobar</module>
-// 		<module platform="ios">com.appc.foobar</module>
-// 		<module version="2.1">com.appc.bar</module>
-// 		<module>com.appc.quux</module>
-// 	</modules>
-
 		it('should get all modules', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
@@ -496,7 +488,52 @@ describe('Tiapp', function() {
 			}
 		});
 
-		it('should set a module');
+		it('should set a module', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			// write some new entries
+			tiapp.setModule('tony.lukasavage', '1.0');
+			tiapp.setModule('charlie.lukasavage', { platform: 'ios'});
+			tiapp.setModule('june.lukasavage', '2.0', 'android');
+			tiapp.setModule('whitney.lukasavage');
+
+			var modules = _.filter(tiapp.getModules(), function(m) {
+				return m.id.indexOf('lukasavage') !== -1;
+			});
+			should.exist(modules);
+			modules.should.be.an.Array;
+			modules.length.should.equal(4);
+
+			modules[0].id.should.equal('tony.lukasavage');
+			modules[0].version.should.equal('1.0');
+			should.not.exist(modules[0].platform);
+
+			modules[1].id.should.equal('charlie.lukasavage');
+			modules[1].platform.should.equal('ios');
+			should.not.exist(modules[1].version);
+
+			modules[2].id.should.equal('june.lukasavage');
+			modules[2].version.should.equal('2.0');
+			modules[2].platform.should.equal('android');
+
+			modules[3].id.should.equal('whitney.lukasavage');
+			should.not.exist(modules[3].version);
+			should.not.exist(modules[3].platform);
+
+			// trying overwriting
+			tiapp.setModule('whitney.lukasavage', { version: '3.4' });
+			modules = _.filter(tiapp.getModules(), function(m) {
+				return m.id === 'whitney.lukasavage';
+			});
+			should.exist(modules);
+			modules.should.be.an.Array;
+			modules.length.should.equal(1);
+
+			modules[0].id.should.equal('whitney.lukasavage');
+			modules[0].version.should.equal('3.4');
+			should.not.exist(modules[0].platform);
+		});
+
 		it('should remove a module');
 		it('should get all plugins');
 		it('should set plugins');
