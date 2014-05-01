@@ -211,6 +211,12 @@ tiapp.setModule('ti.cloud', '2.0');
 // Add a platform-specific module
 tiapp.setModule('ti.cloud', '1.0', 'android');
 
+// add with object for attributes
+tiapp.setModule('some.module', {
+	platform: 'android',
+	version: '3.3'
+});
+
 // Add one more module, no additional details
 tiapp.setModule('com.tonylukasavage.nothing');
 
@@ -223,6 +229,7 @@ The resulting tiapp.xml `<modules>` section would look like this:
 <modules>
 	<module version="2.0">ti.cloud</module>
 	<module version="1.0" platform="android">ti.cloud</module>
+	<module version="3.3" platform="android">some.module</module>
 	<module>com.tonylukasavage.nothing</module>
 </modules>
 ```
