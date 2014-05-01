@@ -350,8 +350,6 @@ describe('Tiapp', function() {
 		});
 
 		it('should get/set top level tiapp.xml elements', function() {
-			// var file = path.resolve('tmp', 'tiapp.xml');
-			// console.log(file);
 			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.sdkVersion.should.equal('3.2.2.GA');
