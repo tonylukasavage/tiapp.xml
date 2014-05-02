@@ -141,214 +141,6 @@ describe('Tiapp', function() {
 
 	describe('#Tiapp', function() {
 
-		it.skip('should be created from load()', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			tiapp.file.should.equal(TIAPP_XML);
-			should.exist(tiapp.modules);
-			tiapp.modules.should.be.instanceOf.ItemGroup;
-			should.exist(tiapp.plugins);
-			tiapp.plugins.should.be.instanceOf.ItemGroup;
-		});
-
-		it.skip('should get full list of modules', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get();
-			should.exist(modules);
-			modules.should.be.an.Array;
-			modules.length.should.equal(5);
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.foo' && o.platform === 'ios' && o.version === '0.1';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.foobar' && o.platform === 'android';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.foobar' && o.platform === 'ios';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.bar' && o.version === '2.1';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.quux';
-			}).should.be.ok;
-		});
-
-		it.skip('should get module by id', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.appc.bar');
-			modules.length.should.equal(1);
-			modules[0].id.should.equal('com.appc.bar');
-			modules[0].version.should.equal('2.1');
-
-			tiapp.modules.get('fakemoduleid').length.should.equal(0);
-		});
-
-		it.skip('should get module by filtering object', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get({
-				id: 'com.appc.bar',
-				version: '2.1'
-			});
-			modules.length.should.equal(1);
-			modules[0].id.should.equal('com.appc.bar');
-			modules[0].version.should.equal('2.1');
-
-			modules = tiapp.modules.get({
-				id: 'com.appc.bar',
-				version: '2.2'
-			});
-			modules.length.should.equal(0);
-		});
-
-		it.skip('should add a module to existing modules', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.tonylukasavage.foo');
-			should.exist(modules);
-			modules.length.should.equal(0);
-
-			tiapp.modules.add({
-				id: 'com.tonylukasavage.foo',
-				version: '2.2',
-				platform: 'android'
-			});
-			modules = tiapp.modules.get('com.tonylukasavage.foo');
-			should.exist(modules);
-			modules.length.should.equal(1);
-		});
-
-		it.skip('should add a module when none already exist', function() {
-			var tiapp = tiappXml.parse('<ti:app></ti:app>');
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(0);
-
-			tiapp.modules.add({
-				id: 'com.appc.bar'
-			});
-			modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-		});
-
-		it.skip('should add an array of modules', function() {
-			var tiapp = tiappXml.parse('<ti:app></ti:app>');
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(0);
-
-			tiapp.modules.add([
-				{ id: 'com.appc.bar' },
-				{ id: 'com.appc.foo' },
-				{ id: 'com.tonylukasavage.blahblah' }
-			]);
-			modules = tiapp.modules.get();
-			should.exist(modules);
-			modules.length.should.equal(3);
-
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.bar';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.appc.foo';
-			}).should.be.ok;
-			_.find(modules, function(o) {
-				return o.id === 'com.tonylukasavage.blahblah';
-			}).should.be.ok;
-		});
-
-		it.skip('should fail quietly on a duplicate add', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-
-			tiapp.modules.add({
-				id: 'com.appc.bar',
-				version: '2.1'
-			});
-			modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-		});
-
-		it.skip('should throw when fail=true on add', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-
-			(function() {
-				tiapp.modules.add({
-					id: 'com.appc.bar',
-					version: '2.1'
-				}, { fail: true });
-			}).should.throw();
-		});
-
-		it.skip('should add duplicate entry when duplicates=true', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-
-			tiapp.modules.add({
-				id: 'com.appc.bar',
-				version: '2.1'
-			}, { duplicates: true });
-			modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(2);
-		});
-
-		it.skip('should add duplicate entry when duplicates=true, even if fail=true', function() {
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(1);
-
-			tiapp.modules.add({
-				id: 'com.appc.bar',
-				version: '2.1'
-			}, { duplicates: true, fail: true });
-			modules = tiapp.modules.get('com.appc.bar');
-			should.exist(modules);
-			modules.length.should.equal(2);
-		});
-
-		it.skip('should write to a tiapp.xml using explicit file', function() {
-			var file = path.resolve('tmp', 'tiapp.xml');
-			var tiapp = tiappXml.load(TIAPP_XML);
-			var modules = tiapp.modules.get('testmodule');
-			should.exist(modules);
-			modules.length.should.equal(0);
-
-			tiapp.modules.add('testmodule');
-			tiapp.write(file);
-
-			tiapp = tiappXml.load(file);
-			modules = tiapp.modules.get('testmodule');
-			should.exist(modules);
-			modules.length.should.equal(1);
-			modules[0].id.should.equal('testmodule');
-		});
-
-		it.skip('should write to a tiapp.xml using this.file', function() {
-			var file = path.resolve('tmp', 'tiapp.xml');
-			var tiapp = tiappXml.load(file);
-			var modules = tiapp.plugins.get('someplugin');
-			should.exist(modules);
-			modules.length.should.equal(0);
-
-			tiapp.plugins.add('someplugin');
-			tiapp.write();
-
-			tiapp = tiappXml.load(file);
-			modules = tiapp.plugins.get('someplugin');
-			should.exist(modules);
-			modules.length.should.equal(1);
-			modules[0].id.should.equal('someplugin');
-		});
-
 		it('should get/set top level tiapp.xml elements', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
@@ -530,6 +322,25 @@ describe('Tiapp', function() {
 			modules[0].id.should.equal('whitney.lukasavage');
 			modules[0].version.should.equal('3.4');
 			should.not.exist(modules[0].platform);
+
+			// quietly overwrite duplicate
+			(function() {
+				tiapp.setModule('whitney.lukasavage');
+				tiapp.setModule('whitney.lukasavage');
+			}).should.not.throw();
+		});
+
+		it('should add a module when none already exist', function() {
+			var tiapp = tiappXml.parse('<ti:app></ti:app>');
+
+			var modules = tiapp.getModules();
+			should.exist(modules);
+			modules.length.should.equal(0);
+
+			tiapp.setModule('com.appc.bar');
+			modules = tiapp.getModules();
+			should.exist(modules);
+			modules.length.should.equal(1);
 		});
 
 		it('should remove a module', function() {
@@ -614,6 +425,25 @@ describe('Tiapp', function() {
 				tiapp.removePlugin('i.do.not.exist');
 				tiapp.removePlugin();
 			}).should.not.throw();
+		});
+
+		it('should write to a tiapp.xml', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			tiapp.id.should.equal('com.tonylukasavage.tiapp');
+
+			// write to tmp file
+			var file = path.join(TMP, 'tiapp.xml');
+			tiapp.write(file);
+
+			// read from tmp file and write again
+			tiapp = tiappXml.load(file);
+			tiapp.id.should.equal('com.tonylukasavage.tiapp');
+			tiapp.id = 'a.different.id';
+			tiapp.write();
+
+			// make sure it wrote again
+			tiappXml.load(file);
+			tiapp.id.should.equal('a.different.id');
 		});
 
 	});
