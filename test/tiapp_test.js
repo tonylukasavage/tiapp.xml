@@ -550,10 +550,71 @@ describe('Tiapp', function() {
 			}).should.not.throw();
 		});
 
-		it('should get all plugins');
-		it('should set plugins');
-		it('should remove plugins');
+		it('should get all plugins', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
 
+			var plugins = tiapp.getPlugins();
+			should.exist(plugins);
+			plugins.should.be.an.Array;
+			plugins.length.should.equal(1);
+
+			plugins[0].should.be.an.Object;
+			plugins[0].id.should.equal('ti.alloy');
+			plugins[0].version.should.equal('1.0');
+		});
+
+		it('should set a plugin', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			// create new
+			tiapp.setPlugin('some.plugin');
+			tiapp.setPlugin('another.plugin', '3.3');
+
+			var plugins = tiapp.getPlugins();
+			should.exist(plugins);
+			plugins.should.be.an.Array;
+			plugins.length.should.equal(3);
+
+			plugins[0].should.be.an.Object;
+			plugins[0].id.should.equal('ti.alloy');
+			plugins[0].version.should.equal('1.0');
+
+			plugins[1].should.be.an.Object;
+			plugins[1].id.should.equal('some.plugin');
+			should.not.exist(plugins[1].version);
+
+			plugins[2].should.be.an.Object;
+			plugins[2].id.should.equal('another.plugin');
+			plugins[2].version.should.equal('3.3');
+
+			// update existing
+			tiapp.setPlugin('ti.alloy', '2.0');
+
+			plugins = tiapp.getPlugins();
+			should.exist(plugins);
+			plugins.should.be.an.Array;
+			plugins.length.should.equal(3);
+
+			plugins[0].should.be.an.Object;
+			plugins[0].id.should.equal('ti.alloy');
+			plugins[0].version.should.equal('2.0');
+		});
+
+		it('should remove a plugin', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			tiapp.removePlugin('ti.alloy');
+
+			var plugins = tiapp.getPlugins();
+			should.exist(plugins);
+			plugins.should.be.an.Array;
+			plugins.length.should.equal(0);
+
+			(function() {
+				tiapp.removePlugin('i.do.not.exist');
+				tiapp.removePlugin();
+			}).should.not.throw();
+		});
 
 	});
 
