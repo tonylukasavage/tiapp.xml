@@ -84,15 +84,6 @@ Find a tiapp.xml file and return its file path. It will start by searching the c
 var pathToTiappXml = require('tiapp.xml').find();
 ```
 
-### doc
-
-A direct reference to the underlying XML Document object as supplied by [xmldom](https://github.com/jindw/xmldom). You will not need to use this in most cases and should use the tiapp.xml module APIs instead.
-
-```js
-var tiapp = require('tiapp.xml').load('./tiapp.xml');
-console.log(tiapp.doc.documentElement.nodeName); // prints "ti:app"
-```
-
 ### write([file])
 
 Write the current Tiapp object out as a tiapp.xml file to `file`. If `file` is undefined, it will use the file supplied in the inital [load()](#loadfile) or [parse()](#parsexmlstring-filename) call. If it still can't find a file, an exception with be thrown.
@@ -315,6 +306,15 @@ Remove a plugin from the tiapp.xml.
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
 tiapp.removePlugin('ti.alloy');
 tiapp.write();
+```
+
+### doc
+
+A direct reference to the underlying XML Document object as supplied by [xmldom](https://github.com/jindw/xmldom). You will not need to use this in most cases and should use the tiapp.xml module APIs instead.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+console.log(tiapp.doc.documentElement.nodeName); // prints "ti:app"
 ```
 
 ## Todo
