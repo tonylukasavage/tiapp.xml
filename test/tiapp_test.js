@@ -427,6 +427,11 @@ describe('Tiapp', function() {
 			}).should.not.throw();
 		});
 
+		it('should allow access to XML document object via `doc`', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+			tiapp.doc.documentElement.nodeName.should.equal('ti:app');
+		});
+
 		it('should write to a tiapp.xml', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 			tiapp.id.should.equal('com.tonylukasavage.tiapp');

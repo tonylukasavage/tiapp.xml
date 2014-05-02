@@ -1,6 +1,10 @@
 # tiapp.xml [![Build Status](https://travis-ci.org/tonylukasavage/tiapp.xml.svg?branch=master)](https://travis-ci.org/tonylukasavage/tiapp.xml) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-A node.js parsing and manipulation API module for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file. For complete details regarding tiapp.xml files, please consult Appcelerator's [full documentation](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference).
+A node.js parsing and manipulation API module for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file. It makes it exceedingly easy now to read and modify entries in the tiapp.xml file programmatically. No need to manually parse XML anymore, but [you can](#doc) if you so choose.
+
+For complete details regarding tiapp.xml files, please consult Appcelerator's [full documentation](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference).
+
+
 
 ## Install [![NPM version](https://badge.fury.io/js/tiapp.xml.svg)](http://badge.fury.io/js/tiapp.xml)
 
@@ -41,6 +45,7 @@ tiapp.write();
 	* [parse](#parsexmlstring-filename)
 	* [find](#find)
 * tiapp APIs
+	* [doc](#doc)
 	* [write](#writefile)
 	* [top-level elements](#top-level-elements)
 	* [getDeploymentTarget](#getdeploymenttargetplatform)
@@ -77,6 +82,15 @@ Find a tiapp.xml file and return its file path. It will start by searching the c
 
 ```js
 var pathToTiappXml = require('tiapp.xml').find();
+```
+
+### doc
+
+A direct reference to the underlying XML Document object as supplied by [xmldom](https://github.com/jindw/xmldom). You will not need to use this in most cases and should use the tiapp.xml module APIs instead.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+console.log(tiapp.doc.documentElement.nodeName); // prints "ti:app"
 ```
 
 ### write([file])
