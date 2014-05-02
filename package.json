@@ -1,6 +1,6 @@
 {
   "name": "tiapp.xml",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Titanium tiapp.xml parsing and manipulation API",
   "keywords": [
     "titanium",
