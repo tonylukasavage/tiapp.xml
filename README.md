@@ -2,6 +2,12 @@
 
 A node.js parsing and manipulation API module for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file. For complete details regarding tiapp.xml files, please consult Appcelerator's [full documentation](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference).
 
+## Install [![NPM version](https://badge.fury.io/js/tiapp.xml.svg)](http://badge.fury.io/js/tiapp.xml)
+
+```bash
+$ npm install tiapp.xml
+```
+
 ## Examples
 
 ### Change the Titanium SDK version
