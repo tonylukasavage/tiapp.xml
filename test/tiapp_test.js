@@ -56,6 +56,11 @@ describe('Tiapp', function() {
 			tiappXml.find().should.equal(TIAPP_XML);
 		});
 
+		it('should find tiapp.xml in target directory', function() {
+			tiappXml.find(TESTFIND_END).should.equal(TESTFIND_TIAPP_XML);
+			tiappXml.find(path.resolve('test', 'fixtures')).should.equal(TIAPP_XML);
+		});
+
 		it('should find tiapp.xml in directory hierarchy', function() {
 			process.chdir(path.dirname(TESTFIND_END));
 			tiappXml.find().should.equal(TESTFIND_TIAPP_XML);
