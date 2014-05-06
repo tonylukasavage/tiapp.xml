@@ -192,8 +192,7 @@ targets.blackberry = false;
 targets.tizen = false;
 tiapp.setDeploymentTargets(targets);
 
-// or use an object literal to do the same without the
-// getDeploymentTargets() call
+// or use an object literal to do the same without the getDeploymentTargets() call
 tiapp.setDeploymentTargets({
 	android: true,
 	blackberry: false,
