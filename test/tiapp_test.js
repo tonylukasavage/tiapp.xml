@@ -187,15 +187,26 @@ describe('Tiapp', function() {
 			tiapp.getDeploymentTarget('mobileweb').should.be.true;
 			tiapp.getDeploymentTarget('tizen').should.be.true;
 			should.equal(tiapp.getDeploymentTarget('what?'), null);
-			should.equal(tiapp.getDeploymentTarget(), null);
 			should.equal(tiapp.getDeploymentTarget(123), null);
 			should.equal(tiapp.getDeploymentTarget(function(){}), null);
 		});
 
-		it.skip('should get all deployment-targets', function() {
+		it('should get all deployment-targets', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
+			// with an "s"
 			var targets = tiapp.getDeploymentTargets();
+			should.exist(targets);
+			targets.should.be.an.Object;
+			targets.android.should.equal(true);
+			targets.blackberry.should.equal(true);
+			targets.ipad.should.equal(true);
+			targets.iphone.should.equal(true);
+			targets.mobileweb.should.equal(true);
+			targets.tizen.should.equal(true);
+
+			// without an "s"
+			targets = tiapp.getDeploymentTarget();
 			should.exist(targets);
 			targets.should.be.an.Object;
 			targets.android.should.equal(true);
@@ -224,7 +235,36 @@ describe('Tiapp', function() {
 			// TODO: return null id <deployment-targets> doesn't exist
 		});
 
-		it('should set all deployment-targets');
+		it('should set all deployment-targets', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			// get existing targets
+			var targets = tiapp.getDeploymentTargets();
+			should.exist(targets);
+			targets.should.be.an.Object;
+			targets.android.should.equal(true);
+			targets.blackberry.should.equal(true);
+			targets.ipad.should.equal(true);
+			targets.iphone.should.equal(true);
+			targets.mobileweb.should.equal(true);
+			targets.tizen.should.equal(true);
+
+			// make some mods and set them
+			targets.tizen = false;
+			targets.blackberry = false;
+			tiapp.setDeploymentTargets(targets);
+
+			// get them again and make sure the set worked
+			targets = tiapp.getDeploymentTargets();
+			should.exist(targets);
+			targets.should.be.an.Object;
+			targets.android.should.equal(true);
+			targets.blackberry.should.equal(false);
+			targets.ipad.should.equal(true);
+			targets.iphone.should.equal(true);
+			targets.mobileweb.should.equal(true);
+			targets.tizen.should.equal(false);
+		});
 
 		it('should get application properties', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
