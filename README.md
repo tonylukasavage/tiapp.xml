@@ -49,7 +49,9 @@ tiapp.write();
 	* [write](#writefile)
 	* [top-level elements](#top-level-elements)
 	* [getDeploymentTarget](#getdeploymenttargetplatform)
+	* [getDeploymentTargets](#getdeploymenttargets)
 	* [setDeploymentTarget](#setdeploymenttargetplatform-value)
+	* [setDeploymentTargets](#setdeploymenttargetsobj)
 	* [getProperty](#getpropertyname)
 	* [setProperty](#setpropertyname-value-type)
 	* [removeProperty](#removepropertyname)
@@ -120,7 +122,7 @@ tiapp['sdk-version'] = '3.2.2.GA';
 
 ### getDeploymentTarget(platform)
 
-Return a boolean indicating whether or not the given `platform` is enabled.
+Return a boolean indicating whether or not the given `platform` is enabled. If no `platform` is given, [getDeploymentTargets](#getdeploymenttargets) is called instead.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
@@ -135,9 +137,31 @@ The previous code would print `true` if the `deployment-targets` section of your
 </deployment-targets>
 ```
 
+### getDeploymentTargets()
+
+Return an object representation of all the deployment target elements.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+console.log(tiapp.getDeploymentTargets());
+```
+
+The previous code executed against a tiapp.xml that had everything but Tizen enabled would print this:
+
+```js
+{
+	android: true,
+	blackberry: true,
+	ipad: true,
+	iphone: true,
+	mobileweb: true,
+	tizen: false
+}
+```
+
 ### setDeploymentTarget(platform, value)
 
-Enable or disable a platform.
+Enable or disable a platform. If `platform` is an object, [setDeploymentTargets](#setdeploymenttargetsobj) is called instead.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
@@ -151,6 +175,35 @@ The previous code would write a `deployment-targets` entry something like this:
 <deployment-targets>
 	<target device="android">false</target>
 </deployment-targets>
+```
+
+### setDeploymentTargets(obj)
+
+Enabled or disable all platforms at once. `obj` is an object representation of all deployment targets.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+// get existing list of deployment targets
+var targets = tiapp.getDeploymentTarget();
+
+// disable tizen and blackberry
+targets.blackberry = false;
+targets.tizen = false;
+tiapp.setDeploymentTargets(targets);
+
+// or use an object literal to do the same without the
+// getDeploymentTargets() call
+tiapp.setDeploymentTargets({
+	android: true,
+	blackberry: false,
+	ipad: true,
+	iphone: true,
+	mobileweb: true,
+	tizen: false
+});
+
+tiapp.write();
 ```
 
 ### getProperty(name)
