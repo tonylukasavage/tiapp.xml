@@ -141,7 +141,7 @@ Enable or disable a platform.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
-tiapp.getDeploymentTarget('android', false);
+tiapp.setDeploymentTarget('android', false);
 tiapp.write();
 ```
 
