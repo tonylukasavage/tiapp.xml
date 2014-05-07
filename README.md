@@ -52,7 +52,7 @@ console.log(tiapp.doc.toString());
 	* [parse](#parsexmlstring-filename)
 	* [find](#find)
 * tiapp APIs
-	* [doc](#doc)
+	* [toString](#tostring)
 	* [write](#writefile)
 	* [top-level elements](#top-level-elements)
 	* [getDeploymentTarget](#getdeploymenttargetplatform)
@@ -68,6 +68,7 @@ console.log(tiapp.doc.toString());
 	* [getPlugins](#getplugins)
 	* [setPlugin](#setpluginid-version)
 	* [removePlugin](#removepluginid)
+	* [doc](#doc)
 
 ### load(file)
 
@@ -91,6 +92,15 @@ Find a tiapp.xml file and return its file path. It will start by searching the c
 
 ```js
 var pathToTiappXml = require('tiapp.xml').find();
+```
+
+### toString()
+
+Return the string representation of the tiapp.xml file.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+console.log(tiapp.toString());
 ```
 
 ### write([file])

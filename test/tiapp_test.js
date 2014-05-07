@@ -496,7 +496,7 @@ describe('Tiapp', function() {
 			tiapp.id.should.equal('a.different.id');
 		});
 
-		it('should write pretty tiapp.xml', function() {
+		it('should create pretty xml with write() and toString()', function() {
 			var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"/>');
 
 			// fill in initial values
@@ -527,17 +527,16 @@ describe('Tiapp', function() {
 			tiapp.sdkVersion = '3.2.2.GA';
 			tiapp.version = '1.1';
 
+			// get the fixture for comparison
+			var fixData = fs.readFileSync(path.resolve('test', 'fixtures', 'format.tiapp.xml'), 'utf8');
+
+			// make sure toString() formats correctly
+			tiapp.toString().replace('<ti:app ', '<ti:app').should.equal(fixData);
+
 			// write the tiapp.xml for comparison
 			var tmpFile = path.resolve('tmp', 'format.tiapp.xml');
 			tiapp.write(tmpFile);
-
-			var	tmpData = fs.readFileSync(tmpFile, 'utf8'),
-				fixData = fs.readFileSync(path.resolve('test', 'fixtures', 'format.tiapp.xml'), 'utf8');
-
-			// TODO: remove this hack when pretty-data is replaced with pretty-xml
-			tmpData = tmpData.replace('<ti:app ', '<ti:app');
-
-			tmpData.should.equal(fixData);
+			fs.readFileSync(tmpFile, 'utf8').replace('<ti:app ', '<ti:app').should.equal(fixData);
 		});
 
 	});
