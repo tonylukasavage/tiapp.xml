@@ -27,7 +27,8 @@
     "url": "git://github.com/tonylukasavage/tiapp.xml.git"
   },
   "dependencies": {
-    "xmldom": "~0.1.19"
+    "xmldom": "~0.1.19",
+    "pretty-data": "~0.40.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

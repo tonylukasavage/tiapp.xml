@@ -496,64 +496,48 @@ describe('Tiapp', function() {
 			tiapp.id.should.equal('a.different.id');
 		});
 
-		it('should format top-level elements appropriately', function() {
+		it('should write pretty tiapp.xml', function() {
 			var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"/>');
+
+			// fill in initial values
 			tiapp.name = 'appname';
 			tiapp.id = 'com.tonylukasavage.appname';
-
-			tiapp.name.should.equal('appname');
-			tiapp.id.should.equal('com.tonylukasavage.appname');
-
-			var output = tiapp.doc.toString();
-			should.exist(output);
-			output.should.equal('<ti:app xmlns:ti="http://ti.appcelerator.org">\n\t<name>appname</name>\n\t<id>com.tonylukasavage.appname</id>\n</ti:app>');
-		});
-
-		it('should format deployment types appropriately', function() {
-			var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"/>');
+			tiapp.version = '1.0';
+			tiapp.setProperty('ti.ui.defaultunit', 'string', 'dp');
+			tiapp.setModule('com.appc.foo', '0.1', 'ios');
+			tiapp.setModule('com.appc.foobar', { platform: 'android' });
+			tiapp.setModule('com.appc.foobar', { platform: 'ios' });
 			tiapp.setDeploymentTargets({
 				android: true,
-				iphone: true,
 				ipad: true,
+				iphone: true,
+				mobileweb: false,
 				tizen: false
 			});
+			tiapp.setPlugin('ti.alloy', '1.0');
 
-			console.log(tiapp.doc.toString());
+			// insert/update values
+			tiapp.setModule('com.appc.quux');
+			tiapp.setModule('com.appc.foo', '1.0', 'ios');
+			tiapp.setDeploymentTarget('blackberry', false);
+			tiapp.setPlugin('no.version');
+			tiapp.setPlugin('another.plugin', '3.3');
+			tiapp.setPlugin('ti.alloy', '2.0');
+			tiapp.setProperty('some.property', 'int', '123');
+			tiapp.sdkVersion = '3.2.2.GA';
+			tiapp.version = '1.1';
 
-			tiapp.getDeploymentTarget('android').should.equal(true);
-			tiapp.getDeploymentTarget('iphone').should.be.true;
-			tiapp.getDeploymentTarget('ipad').should.be.true;
-			tiapp.getDeploymentTarget('tizen').should.be.false;
+			// write the tiapp.xml for comparison
+			var tmpFile = path.resolve('tmp', 'format.tiapp.xml');
+			tiapp.write(tmpFile);
 
-			var output = tiapp.doc.toString();
-			should.exist(output);
-			output.should.equal(
-				'<ti:app xmlns:ti="http://ti.appcelerator.org">\n' +
-				'\t<deployment-targets>\n' +
-				'\t\t<target device="android">true</target>\n' +
-				'\t\t<target device="iphone">true</target>\n' +
-				'\t\t<target device="ipad">true</target>\n' +
-				'\t\t<target device="tizen">false</target>\n' +
-				'\t</deployment-targets>\n' +
-				'</ti:app>'
-			);
+			var	tmpData = fs.readFileSync(tmpFile, 'utf8'),
+				fixData = fs.readFileSync(path.resolve('test', 'fixtures', 'format.tiapp.xml'), 'utf8');
 
-			tiapp.setDeploymentTarget('blackberry', true);
-			console.log(tiapp.doc.toString());
+			// TODO: remove this hack when pretty-data is replaced with pretty-xml
+			tmpData = tmpData.replace('<ti:app ', '<ti:app');
 
-			output = tiapp.doc.toString();
-			should.exist(output);
-			output.should.equal(
-				'<ti:app xmlns:ti="http://ti.appcelerator.org">\n' +
-				'\t<deployment-targets>\n' +
-				'\t\t<target device="android">true</target>\n' +
-				'\t\t<target device="iphone">true</target>\n' +
-				'\t\t<target device="ipad">true</target>\n' +
-				'\t\t<target device="tizen">false</target>\n' +
-				'\t\t<target device="blackberry">true</target>\n' +
-				'\t</deployment-targets>\n' +
-				'</ti:app>'
-			);
+			tmpData.should.equal(fixData);
 		});
 
 	});
