@@ -496,6 +496,66 @@ describe('Tiapp', function() {
 			tiapp.id.should.equal('a.different.id');
 		});
 
+		it('should format top-level elements appropriately', function() {
+			var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"/>');
+			tiapp.name = 'appname';
+			tiapp.id = 'com.tonylukasavage.appname';
+
+			tiapp.name.should.equal('appname');
+			tiapp.id.should.equal('com.tonylukasavage.appname');
+
+			var output = tiapp.doc.toString();
+			should.exist(output);
+			output.should.equal('<ti:app xmlns:ti="http://ti.appcelerator.org">\n\t<name>appname</name>\n\t<id>com.tonylukasavage.appname</id>\n</ti:app>');
+		});
+
+		it('should format deployment types appropriately', function() {
+			var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"/>');
+			tiapp.setDeploymentTargets({
+				android: true,
+				iphone: true,
+				ipad: true,
+				tizen: false
+			});
+
+			console.log(tiapp.doc.toString());
+
+			tiapp.getDeploymentTarget('android').should.equal(true);
+			tiapp.getDeploymentTarget('iphone').should.be.true;
+			tiapp.getDeploymentTarget('ipad').should.be.true;
+			tiapp.getDeploymentTarget('tizen').should.be.false;
+
+			var output = tiapp.doc.toString();
+			should.exist(output);
+			output.should.equal(
+				'<ti:app xmlns:ti="http://ti.appcelerator.org">\n' +
+				'\t<deployment-targets>\n' +
+				'\t\t<target device="android">true</target>\n' +
+				'\t\t<target device="iphone">true</target>\n' +
+				'\t\t<target device="ipad">true</target>\n' +
+				'\t\t<target device="tizen">false</target>\n' +
+				'\t</deployment-targets>\n' +
+				'</ti:app>'
+			);
+
+			tiapp.setDeploymentTarget('blackberry', true);
+			console.log(tiapp.doc.toString());
+
+			output = tiapp.doc.toString();
+			should.exist(output);
+			output.should.equal(
+				'<ti:app xmlns:ti="http://ti.appcelerator.org">\n' +
+				'\t<deployment-targets>\n' +
+				'\t\t<target device="android">true</target>\n' +
+				'\t\t<target device="iphone">true</target>\n' +
+				'\t\t<target device="ipad">true</target>\n' +
+				'\t\t<target device="tizen">false</target>\n' +
+				'\t\t<target device="blackberry">true</target>\n' +
+				'\t</deployment-targets>\n' +
+				'</ti:app>'
+			);
+		});
+
 	});
 
 });
