@@ -38,6 +38,13 @@ tiapp.setModule('com.tonylukasavage.someCoolModule', '1.0', 'android');
 tiapp.write();
 ```
 
+### Print the tiapp.xml from the tiapp object
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+console.log(tiapp.doc.toString());
+```
+
 ## API
 
 * module APIs
