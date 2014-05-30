@@ -275,10 +275,10 @@ describe('Tiapp', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
 			tiapp.setProperty('com.tonylukasavage.property', 'somevalue');
-			tiapp.setProperty('com.tonylukasavage.bool', 'bool', false);
-			tiapp.setProperty('com.tonylukasavage.number', 'int', 123);
-			tiapp.setProperty('com.tonylukasavage.float', 'double', 123.123);
-			tiapp.setProperty('ti.ui.defaultunit', 'string', 'system');
+			tiapp.setProperty('com.tonylukasavage.bool', false, 'bool');
+			tiapp.setProperty('com.tonylukasavage.number', 123, 'int');
+			tiapp.setProperty('com.tonylukasavage.float', 123.123, 'double');
+			tiapp.setProperty('ti.ui.defaultunit', 'system', 'string');
 
 			tiapp.getProperty('com.tonylukasavage.property').should.equal('somevalue');
 			tiapp.getProperty('com.tonylukasavage.bool').should.equal(false);
@@ -503,7 +503,7 @@ describe('Tiapp', function() {
 			tiapp.name = 'appname';
 			tiapp.id = 'com.tonylukasavage.appname';
 			tiapp.version = '1.0';
-			tiapp.setProperty('ti.ui.defaultunit', 'string', 'dp');
+			tiapp.setProperty('ti.ui.defaultunit', 'dp', 'string');
 			tiapp.setModule('com.appc.foo', '0.1', 'ios');
 			tiapp.setModule('com.appc.foobar', { platform: 'android' });
 			tiapp.setModule('com.appc.foobar', { platform: 'ios' });
@@ -523,7 +523,7 @@ describe('Tiapp', function() {
 			tiapp.setPlugin('no.version');
 			tiapp.setPlugin('another.plugin', '3.3');
 			tiapp.setPlugin('ti.alloy', '2.0');
-			tiapp.setProperty('some.property', 'int', '123');
+			tiapp.setProperty('some.property', '123', 'int');
 			tiapp.sdkVersion = '3.2.2.GA';
 			tiapp.version = '1.1';
 
