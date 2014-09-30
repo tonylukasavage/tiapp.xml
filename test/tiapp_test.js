@@ -323,6 +323,19 @@ describe('Tiapp', function() {
 			}
 		});
 
+		it('should increment the version', function() {
+			var tiapp = tiappXml.load(TIAPP_XML);
+
+			tiapp.incrementVersion('major');
+			tiapp.version.should.equal('2.0.0');
+
+			tiapp.incrementVersion('minor');
+			tiapp.version.should.equal('2.1.0');
+
+			tiapp.incrementVersion('patch');
+			tiapp.version.should.equal('2.1.1');
+		});
+
 		it('should set a module', function() {
 			var tiapp = tiappXml.load(TIAPP_XML);
 
