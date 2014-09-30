@@ -334,6 +334,12 @@ describe('Tiapp', function() {
 
 			tiapp.incrementVersion('patch');
 			tiapp.version.should.equal('2.1.1');
+
+			var manifest = tiapp.doc.documentElement.getElementsByTagName('android').item(0).getElementsByTagName('manifest').item(0);
+
+			manifest.hasAttribute('android:versionName').should.equal(false);
+			manifest.getAttribute('android:versionCode').should.equal('4');
+
 		});
 
 		it('should set a module', function() {

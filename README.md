@@ -156,7 +156,7 @@ tiapp['sdk-version'] = '3.2.2.GA';
 
 ### incrementVersion(sem)
 
-Increments the `major`, `minor` or `patch` version of the app and returns it. The app must be versioned using a semantic version (`1.0.0`) or it will throw an error.
+Increments the `major`, `minor` or `patch` version of the app and returns it. The app must be versioned using a semantic version (`1.0.0`) or it will throw an error. If `android/manifest[android:versionName]` is found it will be removed so Titanium will automatically use the top-level version. If `android/manifest[android:versionCode]` is found it will be incremented as well.
 
 ```js
 var tiapp = require('tiapp.xml').load('./tiapp.xml');
