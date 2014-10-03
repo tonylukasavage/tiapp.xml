@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.tonylukasavage.tiapp</id>
 	<name>tiappxml</name>
-	<version>1.0</version>
+	<version>1.0.0</version>
 	<publisher>not specified</publisher>
 	<url/>
 	<description>not specified</description>
@@ -38,6 +38,7 @@
 		</plist>
 	</ios>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest android:versionName="1.0.0" android:versionCode="1" />
 	</android>
 	<mobileweb>
 		<precache>

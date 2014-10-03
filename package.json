@@ -19,6 +19,9 @@
     "url": "http://tonylukasavage.com"
   },
   "main": "./lib/tiapp.xml.js",
+  "bin": {
+    "tiapp": "./bin/tiapp"
+  },
   "scripts": {
     "test": "grunt test"
   },
@@ -27,8 +30,9 @@
     "url": "git://github.com/tonylukasavage/tiapp.xml.git"
   },
   "dependencies": {
-    "xmldom": "~0.1.19",
-    "pretty-data": "~0.40.0"
+    "commander": "~2.3.0",
+    "pretty-data": "~0.40.0",
+    "xmldom": "~0.1.19"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

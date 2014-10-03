@@ -1,6 +1,6 @@
 # tiapp.xml [![Build Status](https://travis-ci.org/tonylukasavage/tiapp.xml.svg?branch=master)](https://travis-ci.org/tonylukasavage/tiapp.xml) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-A node.js parsing and manipulation API module for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file. It makes it exceedingly easy now to read and modify entries in the tiapp.xml file programmatically. No need to manually parse XML anymore, but [you can](#doc) if you so choose.
+A node.js parsing and manipulation API module and CLI for Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) tiapp.xml configuration file. It makes it exceedingly easy now to read and modify entries in the tiapp.xml file programmatically. No need to manually parse XML anymore, but [you can](#doc) if you so choose.
 
 For complete details regarding tiapp.xml files, please consult Appcelerator's [full documentation](http://docs.appcelerator.com/titanium/latest/#!/guide/tiapp.xml_and_timodule.xml_Reference).
 
@@ -13,6 +13,14 @@ $ npm install tiapp.xml
 ```
 
 ## Examples
+
+### Increment the app version
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+tiapp.incrementVersion('minor');
+tiapp.write();
+```
 
 ### Change the Titanium SDK version
 
@@ -45,6 +53,14 @@ var tiapp = require('tiapp.xml').load('./tiapp.xml');
 console.log(tiapp.doc.toString());
 ```
 
+## CLI
+
+For now, only [incrementVersion](#incrementVersion) is also available via the CLI:
+
+```
+tiapp version minor
+```
+
 ## API
 
 * module APIs
@@ -55,6 +71,7 @@ console.log(tiapp.doc.toString());
 	* [toString](#tostring)
 	* [write](#writefile)
 	* [top-level elements](#top-level-elements)
+	* [incrementVersion](#incrementVersion)
 	* [getDeploymentTarget](#getdeploymenttargetplatform)
 	* [getDeploymentTargets](#getdeploymenttargets)
 	* [setDeploymentTarget](#setdeploymenttargetplatform-value)
@@ -135,6 +152,23 @@ tiapp.analytics = false;
 
 // change the sdk version
 tiapp['sdk-version'] = '3.2.2.GA';
+```
+
+### incrementVersion(sem)
+
+Increments the `major`, `minor` or `patch` version of the app and returns it. The app must be versioned using a semantic version (`1.0.0`) or it will throw an error. If `android/manifest[android:versionName]` is found it will be removed so Titanium will automatically use the top-level version. If `android/manifest[android:versionCode]` is found it will be incremented as well.
+
+```js
+var tiapp = require('tiapp.xml').load('./tiapp.xml');
+
+// prints the incremented version
+console.log(tiapp.incrementVersion('minor'));
+```
+
+This method is also available via the CLI:
+
+```
+tiapp version minor
 ```
 
 ### getDeploymentTarget(platform)

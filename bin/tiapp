@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+var tiappXml = require('../lib/tiapp.xml');
+
+program.description('Tiapp for Titanium');
+
+program.command('version [major|minor|patch]')
+  .description('Increment the major, minor or patch version')
+  .action(function version(sem) {
+    var tiap, vers;
+
+    try {
+      tiapp = tiappXml.load();
+      vers = tiapp.incrementVersion(sem);
+      tiapp.write();
+
+      console.info('Incremented to: ' + vers);
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+program.parse(process.argv);
+
+if (program.args.length === 0 || typeof program.args[program.args.length - 1] === 'string') {
+  program.help();
+}
