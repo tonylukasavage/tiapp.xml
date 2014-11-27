@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "xmldom": "~0.1.19",
-    "pretty-data": "~0.40.0"
+    "pretty-data2": "~0.40.1"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
