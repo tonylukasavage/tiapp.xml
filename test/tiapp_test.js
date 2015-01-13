@@ -587,7 +587,7 @@ describe('Tiapp', function() {
             tiapp.write(tmpFile);
         });
 
-        it('should load not add versionCode and versionName if no manifest, but will be created on addition', function() {
+        it('should not load properties if no manifest, but will on addition', function() {
             var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"><id>com.example.test</id><publisher>paul ryan</publisher><android xmlns:android="http://schemas.android.com/apk/res/android"></android></ti:app>');
             var tmpFile = path.resolve('tmp', 'android.tiapp.xml');
             tiapp.id.should.equal('com.example.test');
@@ -598,14 +598,30 @@ describe('Tiapp', function() {
             should.not.exist(tiapp.android.targetSdkVersion);
             //as modified
             tiapp.android.versionName = "1.0.2";
-            tiapp.android.versionCode = "2";
-            tiapp.android.minSdkVersion = "14";
+            tiapp.android.versionCode = "1";
+            tiapp.android.minSdkVersion = "15";
             tiapp.android.targetSdkVersion = "19";
-            tiapp.android.minSdkVersion.should.equal("14");
+            tiapp.write(tmpFile);
+            //test the results
             tiapp.android.targetSdkVersion.should.equal("19");
-            tiapp.android.versionCode.should.equal('2');
+            tiapp.android.versionCode.should.equal('1');
             tiapp.android.versionName.should.equal('1.0.2');
-            //tiapp.write(tmpFile);
+            tiapp.android.minSdkVersion.should.equal("15");
+        });
+
+        it('application settings', function() {
+            var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"><id>com.example.test</id><publisher>paul ryan</publisher><android xmlns:android="http://schemas.android.com/apk/res/android"></android></ti:app>');
+            var tmpFile = path.resolve('tmp', 'android.tiapp.xml');
+            tiapp.id.should.equal('com.example.test');
+            //as modified
+            tiapp.android.versionName = "1.0.2";
+            tiapp.android.versionCode = "1";
+            tiapp.android.minSdkVersion = "15";
+            tiapp.android.targetSdkVersion = "19";
+            tiapp.android.application.theme="@style/Theme.NoActionBar";
+            tiapp.android.application.allowBackup="false";
+            tiapp.android.application.theme.should.equal("@style/Theme.NoActionBar");
+            tiapp.write(tmpFile);
         });
     });
 
