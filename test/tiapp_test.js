@@ -620,6 +620,9 @@ describe('Tiapp', function() {
             tiapp.android.targetSdkVersion = "19";
             tiapp.android.application.theme="@style/Theme.NoActionBar";
             tiapp.android.application.allowBackup="false";
+            tiapp.android.application.nonExistent="false";
+            //tests
+            should.not.exist(tiapp.android.application.nonExistent);
             tiapp.android.application.theme.should.equal("@style/Theme.NoActionBar");
             tiapp.write(tmpFile);
         });
