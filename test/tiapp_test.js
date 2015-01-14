@@ -612,7 +612,7 @@ describe('Tiapp', function() {
         it('application settings', function() {
             var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"><id>com.example.test</id><publisher>paul ryan</publisher><android xmlns:android="http://schemas.android.com/apk/res/android"/></ti:app>');
             var tmpFile = path.resolve('tmp', 'android.tiapp.xml');
-            var permissions = tiapp.getAndroidUserPermissions();
+            var permissions = tiapp.getAndroidUsesPermissions();
             tiapp.id.should.equal('com.example.test');
             //as modified
             tiapp.android.versionName = "1.0.2";
@@ -632,7 +632,7 @@ describe('Tiapp', function() {
         it('android permissions and uses-permissions', function() {
             var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"><id>com.example.test</id><publisher>paul ryan</publisher><android xmlns:android="http://schemas.android.com/apk/res/android"><manifest><uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.GET_ACCOUNTS"/><uses-permission android:name="android.permission.WAKE_LOCK"/><uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/><uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/><uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/><uses-permission android:name="android.permission.READ_PHONE_STATE"/><uses-permission android:name="android.permission.VIBRATE"/><uses-permission android:name="android.permission.READ_CALENDAR"/><uses-permission android:name="android.permission.WRITE_CALENDAR"/><uses-permission android:maxSdkVersion="18" android:name="android.permission.WRITE_EXTERNAL_STORAGE"/></manifest></android></ti:app>');
             var tmpFile = path.resolve('tmp', 'android.tiapp.xml');
-            var permissions = tiapp.getAndroidUserPermissions();
+            var permissions = tiapp.getAndroidUsesPermissions();
             //valid permissions
             permissions.should.have.length(11);
             permissions.should.containEql('android.permission.INTERNET');
