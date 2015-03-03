@@ -601,9 +601,11 @@ describe('Tiapp', function() {
             tiapp.android.versionCode = "1";
             tiapp.android.minSdkVersion = "15";
             tiapp.android.targetSdkVersion = "19";
+            tiapp.android.package="com.stepupapps.test";
             tiapp.write(tmpFile);
             //test the results
             tiapp.android.targetSdkVersion.should.equal("19");
+            tiapp.android.package.should.equal("com.stepupapps.test");
             tiapp.android.versionCode.should.equal('1');
             tiapp.android.versionName.should.equal('1.0.2');
             tiapp.android.minSdkVersion.should.equal("15");
