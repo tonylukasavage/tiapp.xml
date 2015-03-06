@@ -99,11 +99,34 @@ describe('Tiapp', function() {
 
         it('activity settings', function() {
             var tiapp = tiappXml.parse('<ti:app xmlns:ti="http://ti.appcelerator.org"><id>com.example.activitiestest</id><publisher>appcelerator</publisher><android xmlns:android="http://schemas.android.com/apk/res/android"/></ti:app>');
-            var tmpFile = path.resolve('tmp', 'android.tiapp.xml');
-            var permissions = tiapp.getAndroidUsesPermissions();
+            var tmpFile = path.resolve('tmp', 'android_activities.tiapp.xml');
+            tiapp.android.versionName = "1.0.2";
+            tiapp.android.versionCode = "1";
+            tiapp.android.minSdkVersion = "15";
+            tiapp.android.targetSdkVersion = "21";
+            tiapp.android.theme = "@style/Theme.NoActionBar";
+            tiapp.android.largeHeap = "true";
             tiapp.id.should.equal('com.example.activitiestest');
-            should.not.exist(tiapp.android.activity);
-            tiapp.android.activity.theme = "@style/Theme.NoActionBar";
+            should.not.exist(tiapp.android.application.activity[0]);
+            tiapp.createAndroidActivity({
+                'theme' : "@style/Theme.NoActionBar",
+                'invalid' : 'some rubbish'
+            });
+            should.not.exist(tiapp.android.application.activity[1]);
+            should.exist(tiapp.android.application.activity[0].theme);
+            should.not.exist(tiapp.android.application.activity[0].invalid);
+            tiapp.android.application.activity[0].theme.should.equal("@style/Theme.NoActionBar");
+            tiapp.createAndroidActivity({
+                'label' : "@string/app_name",
+                'theme' : "@style/Theme.Titanium",
+                'configChanges': "keyboardHidden|orientation|screenSize",
+                'launchMode': 'singleTop',
+                'screenOrientation': 'nosensor'
+            });
+            should.exist(tiapp.android.application.activity[1].theme);
+            should.not.exist(tiapp.android.application.activity[1].invalid);
+            tiapp.android.application.activity[1].theme.should.equal("@style/Theme.Titanium");
+
             tiapp.write(tmpFile);
             //tests
         });
