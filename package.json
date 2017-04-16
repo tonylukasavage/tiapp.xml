@@ -36,7 +36,8 @@
     "grunt-contrib-jshint": "~0.10.0",
     "should": "~3.3.0",
     "lodash": "~2.4.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "grunt-contrib-clean": "~0.5.0",
+    "semver": "~4.1.0"
   },
   "engines": {
     "node": ">=0.10"
