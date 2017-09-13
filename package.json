@@ -30,7 +30,7 @@
     "pretty-data2": "~0.40.1",
     "underscore": "^1.8.3",
     "xml2js": "^0.4.4",
-    "xmldom": "~0.1.19"
+    "xmldom": "0.1.19"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
