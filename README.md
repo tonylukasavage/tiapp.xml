@@ -9,7 +9,7 @@ For complete details regarding tiapp.xml files, please consult Appcelerator's [f
 ## Install [![NPM version](https://badge.fury.io/js/tiapp.xml.svg)](http://badge.fury.io/js/tiapp.xml)
 
 ```bash
-$ npm install tiapp.xml
+$ npm install git+ssh://git@github.com:sharpred/tiapp.xml.git
 ```
 
 ## Examples
